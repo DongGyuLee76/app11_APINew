@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <i class="fa-solid fa-book-open"></i>
                         <span>📚 단어 분석</span>
                     </button>
-                    <button class="action-btn btn-summary" data-id="${art.id}" data-url="${art.link}">
+                    <button class="action-btn btn-summary" data-id="${art.id}" data-url="${art.link}" data-title="${escapeHtml(art.title)}">
                         <i class="fa-solid fa-list-check"></i>
                         <span>📝 요약본</span>
                     </button>
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const btnSummary = card.querySelector('.btn-summary');
             btnSummary.addEventListener('click', () => {
-                toggleSummary(art.id, btnSummary.getAttribute('data-url'), btnSummary);
+                toggleSummary(art.id, btnSummary.getAttribute('data-url'), btnSummary.getAttribute('data-title'), btnSummary);
             });
 
             articlesList.appendChild(card);
@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==========================================
     // Summary Logic
     // ==========================================
-    async function toggleSummary(id, url, button) {
+    async function toggleSummary(id, url, title, button) {
         if (!url) {
             alert('기사 원문 링크가 없어 요약할 수 없습니다.');
             return;
@@ -421,7 +421,8 @@ document.addEventListener('DOMContentLoaded', () => {
         panel.innerHTML = `<p style="color: var(--text-muted); font-size: 0.88rem;"><i class="fa-solid fa-spinner fa-spin"></i> 원문 기사를 크롤링하여 요약하는 중입니다 (최대 15초 소요)...</p>`;
 
         try {
-            const res = await fetch(`/api/summary?url=${encodeURIComponent(url)}`);
+            const titleParam = title ? `&title=${encodeURIComponent(title)}` : '';
+            const res = await fetch(`/api/summary?url=${encodeURIComponent(url)}${titleParam}`);
             const data = await res.json();
 
             if (data.status === 'success') {
