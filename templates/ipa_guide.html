@@ -1,0 +1,2318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>국제표준 발음기호 (IPA) 완벽 마스터 가이드</title>
+    <!-- Google Fonts: Inter & Outfit & Noto Sans KR -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@400;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome 6 Pro-style icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-card-alt: #f1f5f9;
+            --bg-badge: #e0e7ff;
+            --text-main: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --primary-dark: #1d4ed8;
+            --accent: #0ea5e9;
+            --ipa-color: #e11d48;
+            --ipa-bg: #fff1f2;
+            --ipa-border: #fecdd3;
+            --success: #10b981;
+            --success-light: #ecfdf5;
+            --warning: #f59e0b;
+            --warning-light: #fef3c7;
+            --border-light: #e2e8f0;
+            --border-card: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+            --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.65;
+            padding-bottom: 80px;
+        }
+
+        /* Top Navbar */
+        header.nav-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 14px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-badge {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+        }
+
+        .logo-text h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+        }
+
+        .logo-text p {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            overflow-x: auto;
+        }
+
+        .nav-link {
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::after {
+            content: "IPA";
+            position: absolute;
+            right: 20px;
+            bottom: -20px;
+            font-size: 8rem;
+            font-weight: 900;
+            font-family: 'Outfit', sans-serif;
+            color: rgba(37, 99, 235, 0.05);
+            pointer-events: none;
+            line-height: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .hero-title {
+            font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            color: #0f172a;
+            margin-bottom: 16px;
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 820px;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 14px 22px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .stat-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .stat-info .num {
+            font-size: 1.3rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-main);
+        }
+
+        .stat-info .label {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Section Layout */
+        .section-wrap {
+            margin-bottom: 50px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .section-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* Deep Dive Box: Question from User Screenshot */
+        .case-study-box {
+            background: #ffffff;
+            border: 2px solid #fda4af;
+            border-radius: var(--radius-md);
+            padding: 24px 28px;
+            margin-bottom: 35px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .case-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .case-badge {
+            background: var(--ipa-bg);
+            color: var(--ipa-color);
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            border: 1px solid var(--ipa-border);
+        }
+
+        .case-preview {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: #fff1f2;
+            border-radius: var(--radius-sm);
+            padding: 16px 24px;
+            margin-bottom: 18px;
+        }
+
+        .case-ipa {
+            font-family: 'Outfit', 'Inter', monospace;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--ipa-color);
+            letter-spacing: 0.05em;
+        }
+
+        .case-word {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+        }
+
+        .case-item {
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+        }
+
+        .case-item .symbol {
+            font-family: 'Outfit', monospace;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--ipa-color);
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        .case-item .explain {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Sound Card Grid */
+        .sound-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 18px;
+        }
+
+        .sound-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .sound-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: #cbd5e1;
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .ipa-badge {
+            font-family: 'Outfit', monospace;
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: var(--ipa-color);
+            background: var(--ipa-bg);
+            border: 1px solid var(--ipa-border);
+            padding: 4px 14px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 60px;
+        }
+
+        .sound-type {
+            font-size: 0.76rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            background: var(--bg-card-alt);
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .sound-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .sound-desc {
+            font-size: 0.86rem;
+            color: var(--text-secondary);
+            margin-bottom: 14px;
+            line-height: 1.55;
+        }
+
+        .examples-list {
+            background: #f8fafc;
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            border: 1px solid var(--border-light);
+            margin-bottom: 14px;
+        }
+
+        .ex-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.86rem;
+            padding: 4px 0;
+            border-bottom: 1px dashed #e2e8f0;
+        }
+
+        .ex-item:last-child {
+            border-bottom: none;
+        }
+
+        .ex-word {
+            font-weight: 700;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .ex-ipa {
+            font-family: 'Outfit', monospace;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .sound-action {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-audio {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: var(--text-main);
+            font-size: 0.84rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-audio:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+            border-color: #93c5fd;
+        }
+
+        .btn-audio i {
+            color: var(--primary);
+        }
+
+        /* Comparison Table: Minimalist White */
+        .comparison-table-wrap {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 30px;
+        }
+
+        table.compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        table.compare-table th {
+            background: #f8fafc;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 0.88rem;
+            padding: 14px 18px;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        table.compare-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-light);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            vertical-align: middle;
+        }
+
+        table.compare-table tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .versus-pair {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+        }
+
+        .symbol-badge {
+            font-family: 'Outfit', monospace;
+            font-size: 1.15rem;
+            color: var(--ipa-color);
+            background: var(--ipa-bg);
+            padding: 2px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--ipa-border);
+        }
+
+        /* Practice Section Tabs */
+        .tab-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 22px;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 2px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .practice-card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 16px;
+        }
+
+        .practice-card {
+            background: #ffffff;
+            border: 1px solid var(--border-card);
+            border-radius: var(--radius-md);
+            padding: 18px 22px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .practice-card:hover {
+            border-color: #93c5fd;
+            box-shadow: var(--shadow-md);
+        }
+
+        .p-word-wrap .p-word {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 2px;
+        }
+
+        .p-word-wrap .p-ipa {
+            font-family: 'Outfit', monospace;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--ipa-color);
+            margin-bottom: 4px;
+        }
+
+        .p-word-wrap .p-meaning {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .p-tag {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+
+        .tag-easy { background: #dcfce7; color: #166534; }
+        .tag-mid { background: #fef3c7; color: #92400e; }
+        .tag-hard { background: #fee2e2; color: #991b1b; }
+
+        .play-round-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            border: 1px solid #bfdbfe;
+            color: var(--primary);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .play-round-btn:hover {
+            background: var(--primary);
+            color: #ffffff;
+            transform: scale(1.08);
+        }
+
+        /* Interactive Quiz Box */
+        .quiz-container {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            margin-top: 30px;
+        }
+
+        .quiz-question-box {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .quiz-ipa-target {
+            font-family: 'Outfit', monospace;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--ipa-color);
+            background: var(--ipa-bg);
+            border: 2px dashed var(--ipa-border);
+            display: inline-block;
+            padding: 10px 32px;
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .quiz-opt-btn {
+            background: #ffffff;
+            border: 2px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quiz-opt-btn:hover {
+            border-color: var(--primary);
+            background-color: var(--primary-light);
+        }
+
+        .quiz-opt-btn.correct {
+            border-color: var(--success);
+            background-color: var(--success-light);
+            color: #065f46;
+        }
+
+        .quiz-opt-btn.wrong {
+            border-color: #ef4444;
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .quiz-feedback {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            min-height: 28px;
+        }
+
+        /* Search & Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .search-input-wrap {
+            position: relative;
+            flex: 1;
+        }
+
+        .search-input-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 14px 12px 42px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
+            background: #ffffff;
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        /* Floating Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            z-index: 100;
+        }
+
+        .back-to-top:hover {
+            background: var(--primary);
+            color: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header.nav-header { padding: 12px 16px; }
+            .hero-banner { padding: 24px; }
+            .hero-title { font-size: 1.8rem; }
+            .quiz-options { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sticky Navigation Bar -->
+    <header class="nav-header">
+        <div class="logo-area">
+            <div class="logo-badge">
+                <i class="fa-solid fa-volume-high"></i>
+            </div>
+            <div class="logo-text">
+                <h1>IPA Pronunciation Guide</h1>
+                <p>국제표준 발음기호 완벽 정복 백과사전</p>
+            </div>
+        </div>
+
+        <nav class="nav-links">
+            <a href="#about" class="nav-link">개념 소개</a>
+            <a href="#case-study" class="nav-link">실제 예제 분석</a>
+            <a href="#vowels" class="nav-link">모음 (20)</a>
+            <a href="#consonants" class="nav-link">자음 (24)</a>
+            <a href="#rules" class="nav-link">강세·규칙</a>
+            <a href="#practice" class="nav-link">수준별 연습</a>
+            <a href="#quiz" class="nav-link">발음 퀴즈</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <!-- Hero Section -->
+        <section class="hero-banner" id="about">
+            <div class="hero-badge"><i class="fa-solid fa-graduation-cap"></i> International Phonetic Alphabet</div>
+            <h2 class="hero-title">영어 단어의 진짜 소리를 읽는 법,<br>국제표준 발음기호(IPA)의 모든 것</h2>
+            <p class="hero-desc">
+                영어는 알파벳 철자(Spelling)와 실제 발음(Sound)이 일치하지 않는 대표적인 언어입니다. 
+                같은 <b>-ough</b> 철자라도 <i>though(오), through(우), thought(오-), tough(어프), cough(오프)</i>처럼 제각각 소리 납니다.
+                <strong>IPA(국제음성기호)</strong>는 전 세계 언어학자와 옥스퍼드·케임브리지 등 세계적 영영사전이 채택한 
+                <strong>'하나의 기호 = 단 하나의 소리'</strong>를 정의하는 전 세계 유일의 공식 표준 기호입니다.
+            </p>
+
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-font"></i></div>
+                    <div class="stat-info">
+                        <div class="num">44개</div>
+                        <div class="label">영어 표준 음소</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-record-vinyl"></i></div>
+                    <div class="stat-info">
+                        <div class="num">20개</div>
+                        <div class="label">모음 (단모음 12 + 이중모음 8)</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-teeth"></i></div>
+                    <div class="stat-info">
+                        <div class="num">24개</div>
+                        <div class="label">자음 (유성음 + 무성음)</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                    <div class="stat-info">
+                        <div class="num">100%</div>
+                        <div class="label">원어민 발음 듣기 지원</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deep Dive Section: User's Screen Shot Analysis -->
+        <section class="case-study-box" id="case-study">
+            <div class="case-header">
+                <span class="case-badge"><i class="fa-solid fa-magnifying-glass"></i> 화면 속 발음기호 정밀 해부</span>
+                <span style="font-size: 0.82rem; color: var(--text-muted);">단어: <strong>outrage (분노, 격분)</strong></span>
+            </div>
+
+            <div class="case-preview">
+                <div class="case-ipa">/'aʊˌtreɪʤ/</div>
+                <div>
+                    <div class="case-word">outrage <button class="btn-audio" style="display:inline-flex; width:auto; padding:4px 10px; margin-left:8px;" onclick="speakWord('outrage')"><i class="fa-solid fa-volume-high"></i> 듣기</button></div>
+                    <p style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 4px;">
+                        사용자 화면에 표시된 기호는 영미권 사전 표준 유니코드 IPA 그대로 표기된 것입니다.
+                    </p>
+                </div>
+            </div>
+
+            <div class="case-grid">
+                <div class="case-item">
+                    <span class="symbol">/  / (슬래시)</span>
+                    <p class="explain"><strong>음소 표기 괄호</strong>: 일반 알파벳 글자와 발음기호를 구별하기 위한 국제 표준 표기법입니다.</p>
+                </div>
+                <div class="case-item">
+                    <span class="symbol">' (아포스트로피)</span>
+                    <p class="explain"><strong>제1강세 (주강세)</strong>: 바로 뒤에 오는 음절(<code>aʊ</code>)을 <b>가장 높고 길고 세게</b> 발음하라는 명령입니다.</p>
+                </div>
+                <div class="case-item">
+                    <span class="symbol">aʊ (이중모음)</span>
+                    <p class="explain"><strong>'아우'</strong>: 입을 크게 벌리는 '아'에서 입술을 둥글게 모으는 '우'로 부드럽게 이어지는 소리 (out, house의 ou).</p>
+                </div>
+                <div class="case-item">
+                    <span class="symbol">ˌ (아래 쉼표)</span>
+                    <p class="explain"><strong>제2강세 (부강세)</strong>: 주강세보다는 약하지만, 일반 모음보다는 힘을 주어 발음하는 음절입니다.</p>
+                </div>
+                <div class="case-item">
+                    <span class="symbol">t + r</span>
+                    <p class="explain"><strong>치경음 연쇄</strong>: 혀끝을 윗니 잇몸에 댔다 떼며(t) 혀끝을 뒤로 당기며(r) 내는 소리 ('트르').</p>
+                </div>
+                <div class="case-item">
+                    <span class="symbol">eɪ (이중모음)</span>
+                    <p class="explain"><strong>'에이'</strong>: '에'에서 '이'로 이동하는 이중모음 (day, train, age의 a).</p>
+                </div>
+                <div class="case-item">
+                    <span class="symbol">ʤ (유성 파찰음)</span>
+                    <p class="explain"><strong>'쥐/즈' 합자</strong>: <code>d</code>와 <code>ʒ</code>가 합쳐진 공식 IPA 유니코드 기호(<code>U+02A4</code>)로, 현대 영영사전에서는 <code>dʒ</code>로 분리해 쓰기도 합니다 (judge, joy의 j).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search Bar -->
+        <div class="filter-bar">
+            <div class="search-input-wrap">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="ipaSearchInput" class="search-input" placeholder="궁금한 발음기호(/iː/, /æ/, /θ/)나 영어 단어를 검색해 보세요...">
+            </div>
+        </div>
+
+        <!-- Section 2: Vowels (모음 20개) -->
+        <section class="section-wrap" id="vowels">
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title"><i class="fa-solid fa-circle-dot"></i> 모음 (Vowels) 20개 완벽 정복</h3>
+                    <p class="section-desc">모음은 입안에서 공기의 흐름이 방해받지 않고 성대의 울림으로 만들어지는 소리입니다.</p>
+                </div>
+            </div>
+
+            <h4 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 14px; color: var(--primary);">
+                <i class="fa-solid fa-cube"></i> 단모음 (Monophthongs - 12개): 입술과 혀의 위치가 변하지 않는 순수 모음
+            </h4>
+
+            <div class="sound-grid" style="margin-bottom: 30px;">
+                <!-- /iː/ -->
+                <div class="sound-card" data-symbol="/iː/" data-keywords="see eat feel 이- 긴이">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/iː/</span>
+                            <span class="sound-type">장모음 (Long)</span>
+                        </div>
+                        <div class="sound-title">길고 환하게 웃는 '이—'</div>
+                        <div class="sound-desc">입술을 양옆으로 활짝 찢어 미소 짓는 모양으로 혀를 앞쪽 높이 올려 길고 긴장감 있게 발음합니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">see</span> <span class="ex-ipa">/siː/</span></div>
+                            <div class="ex-item"><span class="ex-word">eat</span> <span class="ex-ipa">/iːt/</span></div>
+                            <div class="ex-item"><span class="ex-word">sleep</span> <span class="ex-ipa">/sliːp/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('see')"><i class="fa-solid fa-play"></i> see [siː]</button>
+                        <button class="btn-audio" onclick="speakSound('eat')"><i class="fa-solid fa-play"></i> eat [iːt]</button>
+                    </div>
+                </div>
+
+                <!-- /ɪ/ -->
+                <div class="sound-card" data-symbol="/ɪ/" data-keywords="sit ship gym 턱을 내린 이">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ɪ/</span>
+                            <span class="sound-type">단모음 (Short)</span>
+                        </div>
+                        <div class="sound-title">턱을 풀고 짧게 내는 '이'</div>
+                        <div class="sound-desc">입술에 힘을 완전히 빼고 턱을 살짝 아래로 툭 떨어뜨리며 '에'에 가까운 짧고 둔탁한 '이' 소리를 냅니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">sit</span> <span class="ex-ipa">/sɪt/</span></div>
+                            <div class="ex-item"><span class="ex-word">ship</span> <span class="ex-ipa">/ʃɪp/</span></div>
+                            <div class="ex-item"><span class="ex-word">gym</span> <span class="ex-ipa">/dʒɪm/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('sit')"><i class="fa-solid fa-play"></i> sit [sɪt]</button>
+                        <button class="btn-audio" onclick="speakSound('ship')"><i class="fa-solid fa-play"></i> ship [ʃɪp]</button>
+                    </div>
+                </div>
+
+                <!-- /e/ -->
+                <div class="sound-card" data-symbol="/e/" data-keywords="bed red head 에">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/e/</span>
+                            <span class="sound-type">단모음 (Short)</span>
+                        </div>
+                        <div class="sound-title">자연스러운 '에'</div>
+                        <div class="sound-desc">한국어 '에'와 가장 비슷하며, 입을 손가락 하나 들어갈 정도로 자연스럽게 벌리고 가볍게 소리 냅니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">bed</span> <span class="ex-ipa">/bed/</span></div>
+                            <div class="ex-item"><span class="ex-word">red</span> <span class="ex-ipa">/red/</span></div>
+                            <div class="ex-item"><span class="ex-word">ten</span> <span class="ex-ipa">/ten/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('bed')"><i class="fa-solid fa-play"></i> bed [bed]</button>
+                        <button class="btn-audio" onclick="speakSound('red')"><i class="fa-solid fa-play"></i> red [red]</button>
+                    </div>
+                </div>
+
+                <!-- /æ/ -->
+                <div class="sound-card" data-symbol="/æ/" data-keywords="cat apple bad 애 턱을 크게">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/æ/</span>
+                            <span class="sound-type">개방모음 (Open)</span>
+                        </div>
+                        <div class="sound-title">입을 크게 찢는 강한 '애'</div>
+                        <div class="sound-desc">턱을 아래로 크게 떨어뜨리면서 혀를 바닥에 납작하게 누르고 '아'를 발음하듯 크고 강하게 '애' 소리를 냅니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">cat</span> <span class="ex-ipa">/kæt/</span></div>
+                            <div class="ex-item"><span class="ex-word">apple</span> <span class="ex-ipa">/ˈæp.əl/</span></div>
+                            <div class="ex-item"><span class="ex-word">bad</span> <span class="ex-ipa">/bæd/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('cat')"><i class="fa-solid fa-play"></i> cat [kæt]</button>
+                        <button class="btn-audio" onclick="speakSound('apple')"><i class="fa-solid fa-play"></i> apple [ˈæp.əl]</button>
+                    </div>
+                </div>
+
+                <!-- /ə/ (Schwa) -->
+                <div class="sound-card" data-symbol="/ə/" data-keywords="about sofa banana 슈와 schwa 어">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ə/</span>
+                            <span class="sound-type">슈와 (Schwa)</span>
+                        </div>
+                        <div class="sound-title">영어에서 가장 많은 '어' (힘 뺀 소리)</div>
+                        <div class="sound-desc">강세가 없는 모든 모음이 변하는 소리. 입안의 모든 근육을 멍때리듯 완전히 풀고 툭 뱉는 찰나의 '어'입니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">about</span> <span class="ex-ipa">/əˈbaʊt/</span></div>
+                            <div class="ex-item"><span class="ex-word">sofa</span> <span class="ex-ipa">/ˈsəʊ.fə/</span></div>
+                            <div class="ex-item"><span class="ex-word">banana</span> <span class="ex-ipa">/bəˈnæn.ə/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('about')"><i class="fa-solid fa-play"></i> about</button>
+                        <button class="btn-audio" onclick="speakSound('banana')"><i class="fa-solid fa-play"></i> banana</button>
+                    </div>
+                </div>
+
+                <!-- /ɜː/ -->
+                <div class="sound-card" data-symbol="/ɜː/" data-keywords="bird nurse work 어- 얼">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ɜː/</span>
+                            <span class="sound-type">장모음 (Long)</span>
+                        </div>
+                        <div class="sound-title">입술 중간, 길게 끄는 '어—'</div>
+                        <div class="sound-desc">입술을 둥글리지 않고 멍하게 벌린 상태에서 혀의 중간 부분을 평평하게 들고 목 안쪽에서 깊게 내는 장음입니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">bird</span> <span class="ex-ipa">/bɜːd/</span></div>
+                            <div class="ex-item"><span class="ex-word">nurse</span> <span class="ex-ipa">/nɜːs/</span></div>
+                            <div class="ex-item"><span class="ex-word">work</span> <span class="ex-ipa">/wɜːk/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('bird')"><i class="fa-solid fa-play"></i> bird</button>
+                        <button class="btn-audio" onclick="speakSound('work')"><i class="fa-solid fa-play"></i> work</button>
+                    </div>
+                </div>
+
+                <!-- /ʌ/ -->
+                <div class="sound-card" data-symbol="/ʌ/" data-keywords="cup sun love 어">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ʌ/</span>
+                            <span class="sound-type">단모음 (Short)</span>
+                        </div>
+                        <div class="sound-title">턱을 툭 떨어뜨리는 짧은 '어'</div>
+                        <div class="sound-desc">강세가 있는 '어' 소리입니다. 턱을 살짝 아래로 내리며 배에 가볍게 힘을 주어 짧고 명쾌하게 뱉습니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">cup</span> <span class="ex-ipa">/kʌp/</span></div>
+                            <div class="ex-item"><span class="ex-word">sun</span> <span class="ex-ipa">/sʌn/</span></div>
+                            <div class="ex-item"><span class="ex-word">love</span> <span class="ex-ipa">/lʌv/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('cup')"><i class="fa-solid fa-play"></i> cup</button>
+                        <button class="btn-audio" onclick="speakSound('love')"><i class="fa-solid fa-play"></i> love</button>
+                    </div>
+                </div>
+
+                <!-- /uː/ -->
+                <div class="sound-card" data-symbol="/uː/" data-keywords="blue moon food 우- 긴우">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/uː/</span>
+                            <span class="sound-type">장모음 (Long)</span>
+                        </div>
+                        <div class="sound-title">입술을 뾰족하게 내미는 '우—'</div>
+                        <div class="sound-desc">입술을 빨대를 빨듯이 아주 작고 둥글게 모아 앞으로 쭉 내밀고 혀 뒤쪽을 높여 길게 발음합니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">blue</span> <span class="ex-ipa">/bluː/</span></div>
+                            <div class="ex-item"><span class="ex-word">moon</span> <span class="ex-ipa">/muːn/</span></div>
+                            <div class="ex-item"><span class="ex-word">food</span> <span class="ex-ipa">/fuːd/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('blue')"><i class="fa-solid fa-play"></i> blue</button>
+                        <button class="btn-audio" onclick="speakSound('moon')"><i class="fa-solid fa-play"></i> moon</button>
+                    </div>
+                </div>
+
+                <!-- /ʊ/ -->
+                <div class="sound-card" data-symbol="/ʊ/" data-keywords="book good put 말굽u 짧은우">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ʊ/</span>
+                            <span class="sound-type">단모음 (Short)</span>
+                        </div>
+                        <div class="sound-title">입술 힘을 뺀 짧은 '으/우'</div>
+                        <div class="sound-desc">말굽 U 기호입니다. 입술을 내밀지 않고 턱에 힘을 뺀 채 '으'와 '우'의 중간 소리를 짧게 툭 냅니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">book</span> <span class="ex-ipa">/bʊk/</span></div>
+                            <div class="ex-item"><span class="ex-word">good</span> <span class="ex-ipa">/ɡʊd/</span></div>
+                            <div class="ex-item"><span class="ex-word">put</span> <span class="ex-ipa">/pʊt/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('book')"><i class="fa-solid fa-play"></i> book</button>
+                        <button class="btn-audio" onclick="speakSound('good')"><i class="fa-solid fa-play"></i> good</button>
+                    </div>
+                </div>
+
+                <!-- /ɑː/ -->
+                <div class="sound-card" data-symbol="/ɑː/" data-keywords="father car hot 아- 긴아">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ɑː/</span>
+                            <span class="sound-type">장모음 (Long)</span>
+                        </div>
+                        <div class="sound-title">목구멍을 열어주는 깊은 '아—'</div>
+                        <div class="sound-desc">의사에게 목 안쪽을 보여줄 때처럼 입을 상하로 크게 벌리고 혀를 바닥에 내린 채 깊고 길게 소리 냅니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">father</span> <span class="ex-ipa">/ˈfɑː.ðər/</span></div>
+                            <div class="ex-item"><span class="ex-word">car</span> <span class="ex-ipa">/kɑːr/</span></div>
+                            <div class="ex-item"><span class="ex-word">calm</span> <span class="ex-ipa">/kɑːm/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('father')"><i class="fa-solid fa-play"></i> father</button>
+                        <button class="btn-audio" onclick="speakSound('car')"><i class="fa-solid fa-play"></i> car</button>
+                    </div>
+                </div>
+
+                <!-- /ɔː/ -->
+                <div class="sound-card" data-symbol="/ɔː/" data-keywords="door call law 오- 긴오">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ɔː/</span>
+                            <span class="sound-type">장모음 (Long)</span>
+                        </div>
+                        <div class="sound-title">입술을 둥글린 깊은 '오—'</div>
+                        <div class="sound-desc">턱을 아래로 벌린 채 입술을 동그랗게 오므려 뒤쪽에서 길게 울리는 깊은 '오' 소리를 만듭니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">door</span> <span class="ex-ipa">/dɔːr/</span></div>
+                            <div class="ex-item"><span class="ex-word">law</span> <span class="ex-ipa">/lɔː/</span></div>
+                            <div class="ex-item"><span class="ex-word">call</span> <span class="ex-ipa">/kɔːl/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('door')"><i class="fa-solid fa-play"></i> door</button>
+                        <button class="btn-audio" onclick="speakSound('law')"><i class="fa-solid fa-play"></i> law</button>
+                    </div>
+                </div>
+
+                <!-- /ɒ/ -->
+                <div class="sound-card" data-symbol="/ɒ/" data-keywords="hot stop dog 영국식 아/오">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ɒ/</span>
+                            <span class="sound-type">단모음 (영국식)</span>
+                        </div>
+                        <div class="sound-title">짧고 둥근 '오/아'</div>
+                        <div class="sound-desc">영국식 영어의 대표 모음으로, 입술을 둥글게 살짝 열고 매우 짧게 '옥' 하듯 끊어 소리 냅니다 (미국식에선 /ɑː/로 발음).</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">hot</span> <span class="ex-ipa">/hɒt/</span></div>
+                            <div class="ex-item"><span class="ex-word">stop</span> <span class="ex-ipa">/stɒp/</span></div>
+                            <div class="ex-item"><span class="ex-word">clock</span> <span class="ex-ipa">/klɒk/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('hot')"><i class="fa-solid fa-play"></i> hot</button>
+                        <button class="btn-audio" onclick="speakSound('stop')"><i class="fa-solid fa-play"></i> stop</button>
+                    </div>
+                </div>
+            </div>
+
+            <h4 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 14px; color: var(--primary);">
+                <i class="fa-solid fa-arrows-split-up-and-left"></i> 이중모음 (Diphthongs - 8개): 한 모음에서 다른 모음으로 미끄러지듯 이동하는 소리
+            </h4>
+
+            <div class="sound-grid">
+                <!-- /eɪ/ -->
+                <div class="sound-card" data-symbol="/eɪ/" data-keywords="day wait game 에이">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/eɪ/</span>
+                            <span class="sound-type">이중모음</span>
+                        </div>
+                        <div class="sound-title">'에—이' (앞소리는 길고 뒷소리는 약하게)</div>
+                        <div class="sound-desc">한국어의 '에이'와 달리 앞의 /e/를 70% 세게 발음하고 뒤의 /ɪ/는 살짝 닫으며 흘려보냅니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">day</span> <span class="ex-ipa">/deɪ/</span></div>
+                            <div class="ex-item"><span class="ex-word">make</span> <span class="ex-ipa">/meɪk/</span></div>
+                            <div class="ex-item"><span class="ex-word">train</span> <span class="ex-ipa">/treɪn/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('day')"><i class="fa-solid fa-play"></i> day</button>
+                        <button class="btn-audio" onclick="speakSound('make')"><i class="fa-solid fa-play"></i> make</button>
+                    </div>
+                </div>
+
+                <!-- /aɪ/ -->
+                <div class="sound-card" data-symbol="/aɪ/" data-keywords="my time fly 아이">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/aɪ/</span>
+                            <span class="sound-type">이중모음</span>
+                        </div>
+                        <div class="sound-title">'아—이'</div>
+                        <div class="sound-desc">입을 크게 '아' 벌렸다가 턱을 닫으며 부드럽게 '이'로 이동합니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">my</span> <span class="ex-ipa">/maɪ/</span></div>
+                            <div class="ex-item"><span class="ex-word">time</span> <span class="ex-ipa">/taɪm/</span></div>
+                            <div class="ex-item"><span class="ex-word">night</span> <span class="ex-ipa">/naɪt/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('my')"><i class="fa-solid fa-play"></i> my</button>
+                        <button class="btn-audio" onclick="speakSound('time')"><i class="fa-solid fa-play"></i> time</button>
+                    </div>
+                </div>
+
+                <!-- /ɔɪ/ -->
+                <div class="sound-card" data-symbol="/ɔɪ/" data-keywords="boy coin voice 오이">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ɔɪ/</span>
+                            <span class="sound-type">이중모음</span>
+                        </div>
+                        <div class="sound-title">'오—이'</div>
+                        <div class="sound-desc">둥근 입술 '오'에서 입꼬리를 찢으며 '이'로 이동합니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">boy</span> <span class="ex-ipa">/bɔɪ/</span></div>
+                            <div class="ex-item"><span class="ex-word">coin</span> <span class="ex-ipa">/kɔɪn/</span></div>
+                            <div class="ex-item"><span class="ex-word">choice</span> <span class="ex-ipa">/tʃɔɪs/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('boy')"><i class="fa-solid fa-play"></i> boy</button>
+                        <button class="btn-audio" onclick="speakSound('choice')"><i class="fa-solid fa-play"></i> choice</button>
+                    </div>
+                </div>
+
+                <!-- /aʊ/ -->
+                <div class="sound-card" data-symbol="/aʊ/" data-keywords="out now house 아우 outrage">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/aʊ/</span>
+                            <span class="sound-type">이중모음 (중요)</span>
+                        </div>
+                        <div class="sound-title">'아—우' (outrage의 첫소리)</div>
+                        <div class="sound-desc">크게 벌린 '아' 소리에서 입술을 작고 둥글게 모으는 '우'로 이동합니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">now</span> <span class="ex-ipa">/naʊ/</span></div>
+                            <div class="ex-item"><span class="ex-word">house</span> <span class="ex-ipa">/haʊs/</span></div>
+                            <div class="ex-item"><span class="ex-word">outrage</span> <span class="ex-ipa">/ˈaʊt.reɪdʒ/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('now')"><i class="fa-solid fa-play"></i> now</button>
+                        <button class="btn-audio" onclick="speakSound('house')"><i class="fa-solid fa-play"></i> house</button>
+                    </div>
+                </div>
+
+                <!-- /əʊ/ or /oʊ/ -->
+                <div class="sound-card" data-symbol="/əʊ/" data-keywords="go no home 오우">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/əʊ/</span>
+                            <span class="sound-type">이중모음</span>
+                        </div>
+                        <div class="sound-title">'어—우' 또는 '오—우'</div>
+                        <div class="sound-desc">영어에는 단순한 '오' 단모음이 거의 없습니다. '오'로 시작해서 반드시 입술을 모으며 '우'로 끝납니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">go</span> <span class="ex-ipa">/ɡəʊ/</span></div>
+                            <div class="ex-item"><span class="ex-word">home</span> <span class="ex-ipa">/həʊm/</span></div>
+                            <div class="ex-item"><span class="ex-word">cold</span> <span class="ex-ipa">/kəʊld/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('go')"><i class="fa-solid fa-play"></i> go</button>
+                        <button class="btn-audio" onclick="speakSound('home')"><i class="fa-solid fa-play"></i> home</button>
+                    </div>
+                </div>
+
+                <!-- /ɪə/ -->
+                <div class="sound-card" data-symbol="/ɪə/" data-keywords="near here dear 이어">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ɪə/</span>
+                            <span class="sound-type">이중모음</span>
+                        </div>
+                        <div class="sound-title">'이—어'</div>
+                        <div class="sound-desc">짧은 '이'에서 힘을 빼며 '어'로 넘어가는 소리입니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">here</span> <span class="ex-ipa">/hɪər/</span></div>
+                            <div class="ex-item"><span class="ex-word">ear</span> <span class="ex-ipa">/ɪər/</span></div>
+                            <div class="ex-item"><span class="ex-word">near</span> <span class="ex-ipa">/nɪər/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('here')"><i class="fa-solid fa-play"></i> here</button>
+                        <button class="btn-audio" onclick="speakSound('near')"><i class="fa-solid fa-play"></i> near</button>
+                    </div>
+                </div>
+
+                <!-- /eə/ -->
+                <div class="sound-card" data-symbol="/eə/" data-keywords="hair care bear 에어">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/eə/</span>
+                            <span class="sound-type">이중모음</span>
+                        </div>
+                        <div class="sound-title">'에—어'</div>
+                        <div class="sound-desc">'에' 소리에서 턱에 힘을 빼며 '어'로 부드럽게 연결됩니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">hair</span> <span class="ex-ipa">/heər/</span></div>
+                            <div class="ex-item"><span class="ex-word">care</span> <span class="ex-ipa">/keər/</span></div>
+                            <div class="ex-item"><span class="ex-word">chair</span> <span class="ex-ipa">/tʃeər/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('hair')"><i class="fa-solid fa-play"></i> hair</button>
+                        <button class="btn-audio" onclick="speakSound('care')"><i class="fa-solid fa-play"></i> care</button>
+                    </div>
+                </div>
+
+                <!-- /ʊə/ -->
+                <div class="sound-card" data-symbol="/ʊə/" data-keywords="pure tour cure 우어">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ʊə/</span>
+                            <span class="sound-type">이중모음</span>
+                        </div>
+                        <div class="sound-title">'우—어'</div>
+                        <div class="sound-desc">'우' 소리에서 입술 긴장을 풀며 '어'로 넘어가는 소리입니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">tour</span> <span class="ex-ipa">/tʊər/</span></div>
+                            <div class="ex-item"><span class="ex-word">cure</span> <span class="ex-ipa">/kjʊər/</span></div>
+                            <div class="ex-item"><span class="ex-word">pure</span> <span class="ex-ipa">/pjʊər/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('tour')"><i class="fa-solid fa-play"></i> tour</button>
+                        <button class="btn-audio" onclick="speakSound('cure')"><i class="fa-solid fa-play"></i> cure</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Consonants (자음 24개) -->
+        <section class="section-wrap" id="consonants">
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title"><i class="fa-solid fa-teeth-open"></i> 자음 (Consonants) 24개 완벽 정복</h3>
+                    <p class="section-desc">자음은 입술, 치아, 혀, 입천장 등이 공기의 흐름을 막거나 마찰을 일으켜 만드는 소리입니다.</p>
+                </div>
+            </div>
+
+            <!-- Voiced vs Voiceless Banner -->
+            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:var(--radius-md); padding:20px; margin-bottom:24px; display:flex; align-items:center; gap:20px; box-shadow:var(--shadow-sm);">
+                <div style="font-size:2rem; color:var(--primary);"><i class="fa-solid fa-bell"></i></div>
+                <div>
+                    <strong style="color:var(--text-main); font-size:1.05rem;">자음 학습의 핵심: 유성음(Voiced) vs 무성음(Voiceless)</strong>
+                    <p style="font-size:0.88rem; color:var(--text-secondary); margin-top:2px;">
+                        목에 손을 대고 발음했을 때, 성대가 부르르 떨리면 <b>유성음</b>(예: /b/, /d/, /v/, /z/), 성대가 울리지 않고 바람만 나가면 <b>무성음</b>(예: /p/, /t/, /f/, /s/)입니다.
+                    </p>
+                </div>
+            </div>
+
+            <div class="sound-grid">
+                <!-- /p/ vs /b/ -->
+                <div class="sound-card" data-symbol="/p/" data-keywords="pen park cup p ㅍ">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/p/</span>
+                            <span class="sound-type" style="color:#ef4444;">무성 파열음</span>
+                        </div>
+                        <div class="sound-title">두 입술을 터뜨리는 무성 '프'</div>
+                        <div class="sound-desc">성대 울림 없이 두 입술을 닫았다가 공기를 팍 터뜨리는 소리입니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">pen</span> <span class="ex-ipa">/pen/</span></div>
+                            <div class="ex-item"><span class="ex-word">stop</span> <span class="ex-ipa">/stɒp/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('pen')"><i class="fa-solid fa-play"></i> pen</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/b/" data-keywords="book baby tub b ㅂ">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/b/</span>
+                            <span class="sound-type" style="color:#2563eb;">유성 파열음</span>
+                        </div>
+                        <div class="sound-title">성대를 울리는 유성 '브'</div>
+                        <div class="sound-desc">/p/와 같은 입술 모양이지만, 성대를 부르르 울리며 터뜨립니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">book</span> <span class="ex-ipa">/bʊk/</span></div>
+                            <div class="ex-item"><span class="ex-word">baby</span> <span class="ex-ipa">/ˈbeɪ.bi/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('baby')"><i class="fa-solid fa-play"></i> baby</button>
+                    </div>
+                </div>
+
+                <!-- /t/ vs /d/ -->
+                <div class="sound-card" data-symbol="/t/" data-keywords="tea time cat t ㅌ">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/t/</span>
+                            <span class="sound-type" style="color:#ef4444;">무성 치경음</span>
+                        </div>
+                        <div class="sound-title">혀끝을 잇몸에 튕기는 '트'</div>
+                        <div class="sound-desc">윗니 뒤쪽 잇몸(치경)에 혀끝을 꽉 댔다가 바람만 '칫/트' 터뜨립니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">tea</span> <span class="ex-ipa">/tiː/</span></div>
+                            <div class="ex-item"><span class="ex-word">cat</span> <span class="ex-ipa">/kæt/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('tea')"><i class="fa-solid fa-play"></i> tea</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/d/" data-keywords="door day red d ㄷ">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/d/</span>
+                            <span class="sound-type" style="color:#2563eb;">유성 치경음</span>
+                        </div>
+                        <div class="sound-title">성대를 울리며 튕기는 '드'</div>
+                        <div class="sound-desc">/t/와 같은 혀 위치에서 성대를 강하게 울리며 내는 소리입니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">door</span> <span class="ex-ipa">/dɔːr/</span></div>
+                            <div class="ex-item"><span class="ex-word">day</span> <span class="ex-ipa">/deɪ/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('door')"><i class="fa-solid fa-play"></i> door</button>
+                    </div>
+                </div>
+
+                <!-- /k/ vs /ɡ/ -->
+                <div class="sound-card" data-symbol="/k/" data-keywords="cat king back k ㅋ">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/k/</span>
+                            <span class="sound-type" style="color:#ef4444;">무성 연구개음</span>
+                        </div>
+                        <div class="sound-title">목 안쪽을 막았다 터뜨리는 '크'</div>
+                        <div class="sound-desc">혀 뒤쪽으로 여린입천장(연구개)을 막았다가 공기를 팍 터뜨립니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">cat</span> <span class="ex-ipa">/kæt/</span></div>
+                            <div class="ex-item"><span class="ex-word">king</span> <span class="ex-ipa">/kɪŋ/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('king')"><i class="fa-solid fa-play"></i> king</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/ɡ/" data-keywords="go game bag g ㄱ">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ɡ/</span>
+                            <span class="sound-type" style="color:#2563eb;">유성 연구개음</span>
+                        </div>
+                        <div class="sound-title">성대를 울리는 깊은 '그'</div>
+                        <div class="sound-desc">/k/와 같은 혀 위치에서 성대를 진동시키며 냅니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">go</span> <span class="ex-ipa">/ɡəʊ/</span></div>
+                            <div class="ex-item"><span class="ex-word">bag</span> <span class="ex-ipa">/bæɡ/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('go')"><i class="fa-solid fa-play"></i> go</button>
+                    </div>
+                </div>
+
+                <!-- /f/ vs /v/ -->
+                <div class="sound-card" data-symbol="/f/" data-keywords="fish phone leaf f 윗니 입술">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/f/</span>
+                            <span class="sound-type" style="color:#ef4444;">무성 순치 마찰음</span>
+                        </div>
+                        <div class="sound-title">윗니로 아랫입술을 스치는 '프'</div>
+                        <div class="sound-desc">윗니로 아랫입술을 가볍게 누른 틈새로 바람을 강하게 '스으/프' 밀어냅니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">fish</span> <span class="ex-ipa">/fɪʃ/</span></div>
+                            <div class="ex-item"><span class="ex-word">leaf</span> <span class="ex-ipa">/liːf/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('fish')"><i class="fa-solid fa-play"></i> fish</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/v/" data-keywords="van voice love v ㅂ과 다름">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/v/</span>
+                            <span class="sound-type" style="color:#2563eb;">유성 순치 마찰음</span>
+                        </div>
+                        <div class="sound-title">윗니로 아랫입술을 울리는 '브'</div>
+                        <div class="sound-desc">/f/와 똑같은 상태에서 아랫입술이 간지러울 정도로 성대를 부르르 떱니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">van</span> <span class="ex-ipa">/væn/</span></div>
+                            <div class="ex-item"><span class="ex-word">love</span> <span class="ex-ipa">/lʌv/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('van')"><i class="fa-solid fa-play"></i> van</button>
+                    </div>
+                </div>
+
+                <!-- /θ/ vs /ð/ (번데기와 돼지꼬리) -->
+                <div class="sound-card" data-symbol="/θ/" data-keywords="think thank mouth th 번데기">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/θ/</span>
+                            <span class="sound-type" style="color:#ef4444;">무성 치간 마찰음</span>
+                        </div>
+                        <div class="sound-title">번데기 발음: 혀를 물고 내는 '쓰'</div>
+                        <div class="sound-desc">윗니와 아랫니 사이에 혀끝을 살짝 메롱하듯 내밀고 그 사이로 바람을 뺍니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">think</span> <span class="ex-ipa">/θɪŋk/</span></div>
+                            <div class="ex-item"><span class="ex-word">mouth</span> <span class="ex-ipa">/maʊθ/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('think')"><i class="fa-solid fa-play"></i> think</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/ð/" data-keywords="this mother they th 돼지꼬리">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ð/</span>
+                            <span class="sound-type" style="color:#2563eb;">유성 치간 마찰음</span>
+                        </div>
+                        <div class="sound-title">돼지꼬리 발음: 혀를 물고 내는 '드'</div>
+                        <div class="sound-desc">/θ/와 똑같이 혀끝을 문 상태에서 성대를 강하게 울려 혀끝이 떨리게 합니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">this</span> <span class="ex-ipa">/ðɪs/</span></div>
+                            <div class="ex-item"><span class="ex-word">mother</span> <span class="ex-ipa">/ˈmʌð.ər/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('this')"><i class="fa-solid fa-play"></i> this</button>
+                    </div>
+                </div>
+
+                <!-- /s/ vs /z/ -->
+                <div class="sound-card" data-symbol="/s/" data-keywords="see sun bus s ㅅ">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/s/</span>
+                            <span class="sound-type" style="color:#ef4444;">무성 마찰음</span>
+                        </div>
+                        <div class="sound-title">맑고 날카로운 바람 소리 '스'</div>
+                        <div class="sound-desc">혀를 윗니 뒤에 가까이 대고 좁은 틈새로 바람을 뱀처럼 쉭쉭 내뿜습니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">see</span> <span class="ex-ipa">/siː/</span></div>
+                            <div class="ex-item"><span class="ex-word">bus</span> <span class="ex-ipa">/bʌs/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('see')"><i class="fa-solid fa-play"></i> see</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/z/" data-keywords="zoo zero buzz z 즈 파리">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/z/</span>
+                            <span class="sound-type" style="color:#2563eb;">유성 마찰음</span>
+                        </div>
+                        <div class="sound-title">파리 날갯짓 소리 '즈'</div>
+                        <div class="sound-desc">/s/와 같은 위치에서 성대를 강하게 떨어 '지잉—' 울리는 소리입니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">zoo</span> <span class="ex-ipa">/zuː/</span></div>
+                            <div class="ex-item"><span class="ex-word">buzz</span> <span class="ex-ipa">/bʌz/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('zoo')"><i class="fa-solid fa-play"></i> zoo</button>
+                    </div>
+                </div>
+
+                <!-- /ʃ/ vs /ʒ/ -->
+                <div class="sound-card" data-symbol="/ʃ/" data-keywords="she shoe fish sh 쉬">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ʃ/</span>
+                            <span class="sound-type" style="color:#ef4444;">무성 후치경음</span>
+                        </div>
+                        <div class="sound-title">조용히 시킬 때 내는 '쉬—'</div>
+                        <div class="sound-desc">입술을 나팔처럼 살짝 내밀고 혀를 뒤로 당겨 넓은 면적으로 바람을 뺍니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">she</span> <span class="ex-ipa">/ʃiː/</span></div>
+                            <div class="ex-item"><span class="ex-word">fish</span> <span class="ex-ipa">/fɪʃ/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('she')"><i class="fa-solid fa-play"></i> she</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/ʒ/" data-keywords="vision measure beige 지">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ʒ/</span>
+                            <span class="sound-type" style="color:#2563eb;">유성 후치경음</span>
+                        </div>
+                        <div class="sound-title">성대를 울리는 부드러운 '쥐'</div>
+                        <div class="sound-desc">/ʃ/ 모양에서 성대를 울리는 소리로, 프랑스어풍 외래어에 많습니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">vision</span> <span class="ex-ipa">/ˈvɪʒ.ən/</span></div>
+                            <div class="ex-item"><span class="ex-word">measure</span> <span class="ex-ipa">/ˈmeʒ.ər/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('vision')"><i class="fa-solid fa-play"></i> vision</button>
+                    </div>
+                </div>
+
+                <!-- /tʃ/ vs /dʒ/ (사용자 질문 속 기호!) -->
+                <div class="sound-card" data-symbol="/tʃ/" data-keywords="cheese church watch ch ʧ 치">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/tʃ/</span>
+                            <span class="sound-type" style="color:#ef4444;">무성 파찰음 (ʧ)</span>
+                        </div>
+                        <div class="sound-title">터뜨리며 마찰하는 '치'</div>
+                        <div class="sound-desc">/t/로 닫았다가 /ʃ/로 팍 터뜨리며 내는 무성 파찰음입니다 (church, watch).</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">cheese</span> <span class="ex-ipa">/tʃiːz/</span></div>
+                            <div class="ex-item"><span class="ex-word">church</span> <span class="ex-ipa">/tʃɜːtʃ/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('cheese')"><i class="fa-solid fa-play"></i> cheese</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/dʒ/" data-keywords="judge joy outrage ʤ 지">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/dʒ/ (ʤ)</span>
+                            <span class="sound-type" style="color:#2563eb;">유성 파찰음 (사진 속 기호)</span>
+                        </div>
+                        <div class="sound-title">성대를 울리는 파찰음 '쥐/즈'</div>
+                        <div class="sound-desc">/d/로 막았다가 /ʒ/로 성대를 울리며 터뜨립니다. 합자 기호 <code>ʤ</code>로 표기되기도 합니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">judge</span> <span class="ex-ipa">/dʒʌdʒ/</span></div>
+                            <div class="ex-item"><span class="ex-word">outrage</span> <span class="ex-ipa">/ˈaʊtreɪdʒ/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('judge')"><i class="fa-solid fa-play"></i> judge</button>
+                        <button class="btn-audio" onclick="speakSound('outrage')"><i class="fa-solid fa-play"></i> outrage</button>
+                    </div>
+                </div>
+
+                <!-- /m/, /n/, /ŋ/ (비음 - 콧소리) -->
+                <div class="sound-card" data-symbol="/m/" data-keywords="man mom room m ㅁ">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/m/</span>
+                            <span class="sound-type">양순 비음</span>
+                        </div>
+                        <div class="sound-title">입술을 닫는 콧소리 'ㅁ'</div>
+                        <div class="sound-desc">두 입술을 닫고 공기를 코로 내보내며 성대를 울립니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">man</span> <span class="ex-ipa">/mæn/</span></div>
+                            <div class="ex-item"><span class="ex-word">room</span> <span class="ex-ipa">/ruːm/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('man')"><i class="fa-solid fa-play"></i> man</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/n/" data-keywords="no sun ten n ㄴ">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/n/</span>
+                            <span class="sound-type">치경 비음</span>
+                        </div>
+                        <div class="sound-title">혀끝을 잇몸에 붙이는 콧소리 'ㄴ'</div>
+                        <div class="sound-desc">혀끝을 윗잇몸에 밀착하고 코로 공기를 내보냅니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">no</span> <span class="ex-ipa">/nəʊ/</span></div>
+                            <div class="ex-item"><span class="ex-word">sun</span> <span class="ex-ipa">/sʌn/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('no')"><i class="fa-solid fa-play"></i> no</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/ŋ/" data-keywords="sing ring song ng ㅇ 받침">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/ŋ/</span>
+                            <span class="sound-type">연구개 비음</span>
+                        </div>
+                        <div class="sound-title">받침 'ㅇ' 콧소리</div>
+                        <div class="sound-desc">혀 뒤쪽을 입천장에 붙이고 코로 소리를 냅니다. 단어 처음에 오지 않습니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">sing</span> <span class="ex-ipa">/sɪŋ/</span></div>
+                            <div class="ex-item"><span class="ex-word">long</span> <span class="ex-ipa">/lɒŋ/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('sing')"><i class="fa-solid fa-play"></i> sing</button>
+                    </div>
+                </div>
+
+                <!-- /l/ vs /r/ (한국인의 영원한 숙제) -->
+                <div class="sound-card" data-symbol="/l/" data-keywords="light love bell l ㄹ">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/l/</span>
+                            <span class="sound-type" style="color:#10b981;">치경 설측음</span>
+                        </div>
+                        <div class="sound-title">혀끝을 윗잇몸에 꽉 붙이는 '엘'</div>
+                        <div class="sound-desc">혀끝을 윗잇몸에 꾹 누르고 공기를 혀 양옆으로 흘려보냅니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">light</span> <span class="ex-ipa">/laɪt/</span></div>
+                            <div class="ex-item"><span class="ex-word">ball</span> <span class="ex-ipa">/bɔːl/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('light')"><i class="fa-solid fa-play"></i> light</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/r/" data-keywords="right red car r ㄹ 혀 안 닿음">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/r/</span>
+                            <span class="sound-type" style="color:#10b981;">치경 접근음</span>
+                        </div>
+                        <div class="sound-title">혀끝이 입천장에 안 닿는 '알'</div>
+                        <div class="sound-desc">혀를 뒤로 말아 올리되 입천장 어디에도 닿지 않게 공중에 띄우고 냅니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">right</span> <span class="ex-ipa">/raɪt/</span></div>
+                            <div class="ex-item"><span class="ex-word">red</span> <span class="ex-ipa">/red/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('right')"><i class="fa-solid fa-play"></i> right</button>
+                    </div>
+                </div>
+
+                <!-- /w/, /j/, /h/ -->
+                <div class="sound-card" data-symbol="/w/" data-keywords="water we wet w 반모음 우">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/w/</span>
+                            <span class="sound-type">반모음 (Glide)</span>
+                        </div>
+                        <div class="sound-title">입술을 오므렸다 펴는 '워'</div>
+                        <div class="sound-desc">입술을 '우' 하듯 둥글게 모았다가 재빨리 열며 다음 모음으로 이어집니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">water</span> <span class="ex-ipa">/ˈwɔː.tər/</span></div>
+                            <div class="ex-item"><span class="ex-word">wet</span> <span class="ex-ipa">/wet/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('water')"><i class="fa-solid fa-play"></i> water</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/j/" data-keywords="yes you yellow j 반모음 이">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/j/</span>
+                            <span class="sound-type">반모음 (알파벳 Y 소리)</span>
+                        </div>
+                        <div class="sound-title">알파벳 Y에 해당하는 '이'</div>
+                        <div class="sound-desc">IPA 기호 'j'는 '지'가 아니라 'yes', 'you'의 첫소리인 반모음 '이'입니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">yes</span> <span class="ex-ipa">/jes/</span></div>
+                            <div class="ex-item"><span class="ex-word">you</span> <span class="ex-ipa">/juː/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('yes')"><i class="fa-solid fa-play"></i> yes</button>
+                    </div>
+                </div>
+
+                <div class="sound-card" data-symbol="/h/" data-keywords="hat house happy h ㅎ">
+                    <div>
+                        <div class="card-top">
+                            <span class="ipa-badge">/h/</span>
+                            <span class="sound-type">무성 성문 마찰음</span>
+                        </div>
+                        <div class="sound-title">목구멍에서 한숨 쉬는 '흐'</div>
+                        <div class="sound-desc">성문을 열고 목구멍에서 부드럽게 한숨을 토해내듯 공기만 마찰시킵니다.</div>
+                        <div class="examples-list">
+                            <div class="ex-item"><span class="ex-word">hat</span> <span class="ex-ipa">/hæt/</span></div>
+                            <div class="ex-item"><span class="ex-word">happy</span> <span class="ex-ipa">/ˈhæp.i/</span></div>
+                        </div>
+                    </div>
+                    <div class="sound-action">
+                        <button class="btn-audio" onclick="speakSound('happy')"><i class="fa-solid fa-play"></i> happy</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Confusing Minimal Pairs Table -->
+        <section class="section-wrap" id="rules">
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title"><i class="fa-solid fa-scale-balanced"></i> 한국인이 가장 헷갈려하는 핵심 발음 비교</h3>
+                    <p class="section-desc">발음기호 하나 차이로 의미가 완전히 달라지는 최소대립쌍(Minimal Pairs)입니다.</p>
+                </div>
+            </div>
+
+            <div class="comparison-table-wrap">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">비교 발음기호</th>
+                            <th style="width: 35%;">단어 1 vs 단어 2</th>
+                            <th style="width: 40%;">발음 구분 핵심 요령</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="versus-pair">
+                                    <span class="symbol-badge">/iː/</span> vs <span class="symbol-badge">/ɪ/</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div><strong>sheep</strong> <span class="symbol-badge">/ʃiːp/</span> (양) <button class="btn-audio" style="display:inline-flex; width:auto; padding:2px 8px;" onclick="speakSound('sheep')"><i class="fa-solid fa-play"></i></button></div>
+                                <div style="margin-top:4px;"><strong>ship</strong> <span class="symbol-badge">/ʃɪp/</span> (배) <button class="btn-audio" style="display:inline-flex; width:auto; padding:2px 8px;" onclick="speakSound('ship')"><i class="fa-solid fa-play"></i></button></div>
+                            </td>
+                            <td>/iː/는 입꼬리를 찢어 길게 긴장! /ɪ/는 턱에 힘을 풀고 둔탁하게 짧게 툭!</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="versus-pair">
+                                    <span class="symbol-badge">/æ/</span> vs <span class="symbol-badge">/e/</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div><strong>bad</strong> <span class="symbol-badge">/bæd/</span> (나쁜) <button class="btn-audio" style="display:inline-flex; width:auto; padding:2px 8px;" onclick="speakSound('bad')"><i class="fa-solid fa-play"></i></button></div>
+                                <div style="margin-top:4px;"><strong>bed</strong> <span class="symbol-badge">/bed/</span> (침대) <button class="btn-audio" style="display:inline-flex; width:auto; padding:2px 8px;" onclick="speakSound('bed')"><i class="fa-solid fa-play"></i></button></div>
+                            </td>
+                            <td>/æ/는 입과 턱을 크게 벌리는 강한 '애'! /e/는 입을 자연스럽게 살짝 벌리는 '에'!</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="versus-pair">
+                                    <span class="symbol-badge">/l/</span> vs <span class="symbol-badge">/r/</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div><strong>light</strong> <span class="symbol-badge">/laɪt/</span> (빛) <button class="btn-audio" style="display:inline-flex; width:auto; padding:2px 8px;" onclick="speakSound('light')"><i class="fa-solid fa-play"></i></button></div>
+                                <div style="margin-top:4px;"><strong>right</strong> <span class="symbol-badge">/raɪt/</span> (오른쪽) <button class="btn-audio" style="display:inline-flex; width:auto; padding:2px 8px;" onclick="speakSound('right')"><i class="fa-solid fa-play"></i></button></div>
+                            </td>
+                            <td>/l/은 혀끝이 윗니 뒤 잇몸에 딱 닿음! /r/은 혀끝이 입천장 어디에도 닿지 않음!</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="versus-pair">
+                                    <span class="symbol-badge">/f/</span> vs <span class="symbol-badge">/p/</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div><strong>fan</strong> <span class="symbol-badge">/fæn/</span> (부채, 팬) <button class="btn-audio" style="display:inline-flex; width:auto; padding:2px 8px;" onclick="speakSound('fan')"><i class="fa-solid fa-play"></i></button></div>
+                                <div style="margin-top:4px;"><strong>pan</strong> <span class="symbol-badge">/pæn/</span> (냄비, 팬) <button class="btn-audio" style="display:inline-flex; width:auto; padding:2px 8px;" onclick="speakSound('pan')"><i class="fa-solid fa-play"></i></button></div>
+                            </td>
+                            <td>/f/는 윗니로 아랫입술을 지그시 물고 바람 뿜기! /p/는 두 입술을 닫았다 팡 터뜨리기!</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="versus-pair">
+                                    <span class="symbol-badge">/θ/</span> vs <span class="symbol-badge">/s/</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div><strong>think</strong> <span class="symbol-badge">/θɪŋk/</span> (생각하다) <button class="btn-audio" style="display:inline-flex; width:auto; padding:2px 8px;" onclick="speakSound('think')"><i class="fa-solid fa-play"></i></button></div>
+                                <div style="margin-top:4px;"><strong>sink</strong> <span class="symbol-badge">/sɪŋk/</span> (가라앉다) <button class="btn-audio" style="display:inline-flex; width:auto; padding:2px 8px;" onclick="speakSound('sink')"><i class="fa-solid fa-play"></i></button></div>
+                            </td>
+                            <td>/θ/는 치아 사이로 혀끝을 메롱 내밀기! /s/는 치아를 닫고 입안에서 쉭쉭 바람 빼기!</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 5: Practice by Level (초급, 중급, 고급) -->
+        <section class="section-wrap" id="practice">
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title"><i class="fa-solid fa-layer-group"></i> 수준별 실전 발음 트레이닝</h3>
+                    <p class="section-desc">초급부터 고급까지 실제 발음기호를 보고 직접 소리 내어 연습해 보세요.</p>
+                </div>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="tab-nav">
+                <button class="tab-btn active" onclick="switchTab('beginner', this)"><i class="fa-solid fa-seedling"></i> 초급 (기본 1~2음절)</button>
+                <button class="tab-btn" onclick="switchTab('intermediate', this)"><i class="fa-solid fa-chart-line"></i> 중급 (강세·연음)</button>
+                <button class="tab-btn" onclick="switchTab('advanced', this)"><i class="fa-solid fa-award"></i> 고급 (철자 불일치 난이도)</button>
+            </div>
+
+            <!-- Tab 1: Beginner -->
+            <div id="tab-beginner" class="tab-content active">
+                <div class="practice-card-grid">
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">cat <span class="p-tag tag-easy">초급 #1</span></div>
+                            <div class="p-ipa">/kæt/</div>
+                            <div class="p-meaning">고양이 (입을 크게 벌리는 /æ/)</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('cat')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">love <span class="p-tag tag-easy">초급 #2</span></div>
+                            <div class="p-ipa">/lʌv/</div>
+                            <div class="p-meaning">사랑 (짧은 '어' /ʌ/ + 입술 긁는 /v/)</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('love')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">water <span class="p-tag tag-easy">초급 #3</span></div>
+                            <div class="p-ipa">/ˈwɔː.tər/</div>
+                            <div class="p-meaning">물 (미국식에서는 Flap T: [ˈwɑː.ɾər])</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('water')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">think <span class="p-tag tag-easy">초급 #4</span></div>
+                            <div class="p-ipa">/θɪŋk/</div>
+                            <div class="p-meaning">생각하다 (혀를 무는 /θ/ 번데기)</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('think')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">ship <span class="p-tag tag-easy">초급 #5</span></div>
+                            <div class="p-ipa">/ʃɪp/</div>
+                            <div class="p-meaning">배 (쉬 /ʃ/ + 힘 뺀 짧은 /ɪ/)</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('ship')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">good <span class="p-tag tag-easy">초급 #6</span></div>
+                            <div class="p-ipa">/ɡʊd/</div>
+                            <div class="p-meaning">좋은 (입술 안 내미는 짧은 /ʊ/)</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('good')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Intermediate -->
+            <div id="tab-intermediate" class="tab-content">
+                <div class="practice-card-grid">
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">outrage <span class="p-tag tag-mid">중급 #1</span></div>
+                            <div class="p-ipa">/ˈaʊt.reɪdʒ/</div>
+                            <div class="p-meaning">격분 (1강세 aʊ + 2강세 reɪ + ʤ 파찰음)</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('outrage')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">comfortable <span class="p-tag tag-mid">중급 #2</span></div>
+                            <div class="p-ipa">/ˈkʌmf.tə.bəl/</div>
+                            <div class="p-meaning">편안한 (or이 탈락되어 3음절로 발음)</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('comfortable')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">determine <span class="p-tag tag-mid">중급 #3</span></div>
+                            <div class="p-ipa">/dɪˈtɜː.mɪn/</div>
+                            <div class="p-meaning">결정하다 (마인이 아닌 '민'으로 끝남)</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('determine')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">photography <span class="p-tag tag-mid">중급 #4</span></div>
+                            <div class="p-ipa">/fəˈtɒɡ.rə.fi/</div>
+                            <div class="p-meaning">사진 촬영술 (강세가 2음절 '토'로 이동)</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('photography')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">vegetable <span class="p-tag tag-mid">중급 #5</span></div>
+                            <div class="p-ipa">/ˈvedʒ.tə.bəl/</div>
+                            <div class="p-meaning">야채 (베지터블이 아닌 3음절 '베지터블')</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('vegetable')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">decision <span class="p-tag tag-mid">중급 #6</span></div>
+                            <div class="p-ipa">/dɪˈsɪʒ.ən/</div>
+                            <div class="p-meaning">결정 (sion은 부드러운 유성음 /ʒ/)</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('decision')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Advanced -->
+            <div id="tab-advanced" class="tab-content">
+                <div class="practice-card-grid">
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">colonel <span class="p-tag tag-hard">고급 #1</span></div>
+                            <div class="p-ipa">/ˈkɜː.nəl/</div>
+                            <div class="p-meaning">대령 (l 철자가 있지만 발음은 '커널')</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('colonel')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">choir <span class="p-tag tag-hard">고급 #2</span></div>
+                            <div class="p-ipa">/kwaɪər/</div>
+                            <div class="p-meaning">합창단 ('초이어'가 아닌 '콰이어')</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('choir')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">hierarchy <span class="p-tag tag-hard">고급 #3</span></div>
+                            <div class="p-ipa">/ˈhaɪə.rɑː.ki/</div>
+                            <div class="p-meaning">계급, 위계 ('하이어라키')</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('hierarchy')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">subtle <span class="p-tag tag-hard">고급 #4</span></div>
+                            <div class="p-ipa">/ˈsʌt.əl/</div>
+                            <div class="p-meaning">미묘한 (b 철자가 묵음인 '서틀')</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('subtle')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">indict <span class="p-tag tag-hard">고급 #5</span></div>
+                            <div class="p-ipa">/ɪnˈdaɪt/</div>
+                            <div class="p-meaning">기소하다 (c 철자가 묵음인 '인다이트')</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('indict')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+
+                    <div class="practice-card">
+                        <div class="p-word-wrap">
+                            <div class="p-word">Worcestershire <span class="p-tag tag-hard">고급 #6</span></div>
+                            <div class="p-ipa">/ˈwʊs.tə.ʃər/</div>
+                            <div class="p-meaning">우스터 소스 지명 ('우스터셔')</div>
+                        </div>
+                        <button class="play-round-btn" onclick="speakWord('Worcestershire')"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: Interactive IPA Trainer Quiz -->
+        <section class="section-wrap" id="quiz">
+            <div class="section-header">
+                <div>
+                    <h3 class="section-title"><i class="fa-solid fa-circle-question"></i> 인터랙티브 발음기호 퀴즈 트레이너</h3>
+                    <p class="section-desc">기호를 보고 올바른 단어를 맞혀보며 실력을 테스트해 보세요.</p>
+                </div>
+            </div>
+
+            <div class="quiz-container">
+                <div class="quiz-question-box">
+                    <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 8px;">다음 발음기호가 나타내는 단어는 무엇일까요?</div>
+                    <div class="quiz-ipa-target" id="quizTarget">/'aʊˌtreɪʤ/</div>
+                    <div>
+                        <button class="btn-audio" style="display:inline-flex; width:auto; padding:6px 16px; margin:0 auto;" onclick="playQuizTargetAudio()">
+                            <i class="fa-solid fa-volume-high"></i> 힌트 듣기
+                        </button>
+                    </div>
+                </div>
+
+                <div class="quiz-options" id="quizOptions">
+                    <!-- Dynamic rendering -->
+                </div>
+
+                <div class="quiz-feedback" id="quizFeedback"></div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn-audio" style="display:inline-flex; width:auto; padding:10px 24px; font-size:1rem; border-color:var(--primary); color:var(--primary);" onclick="nextQuiz()">
+                        <i class="fa-solid fa-rotate-right"></i> 다음 문제 풀기
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Back to top floating button -->
+    <a href="#" class="back-to-top" title="맨 위로 가기">
+        <i class="fa-solid fa-arrow-up"></i>
+    </a>
+
+    <!-- Interactive Script -->
+    <script>
+        // Web Speech API for Pronunciation
+        function speakWord(word) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(word);
+                utter.lang = 'en-US';
+                utter.rate = 0.88; // 약간 여유 있는 속도로 명확하게 재생
+                window.speechSynthesis.speak(utter);
+            } else {
+                alert('사용 중인 브라우저가 음성 듣기를 지원하지 않습니다.');
+            }
+        }
+
+        function speakSound(sampleWord) {
+            speakWord(sampleWord);
+        }
+
+        // Tab Switching
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+        }
+
+        // Live Search Filter
+        document.getElementById('ipaSearchInput').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.sound-card');
+
+            cards.forEach(card => {
+                const symbol = card.getAttribute('data-symbol') || '';
+                const keywords = card.getAttribute('data-keywords') || '';
+                const text = card.innerText.toLowerCase();
+
+                if (symbol.toLowerCase().includes(query) || keywords.toLowerCase().includes(query) || text.includes(query)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Interactive Quiz Data
+        const QUIZ_BANK = [
+            {
+                ipa: "/'aʊˌtreɪʤ/",
+                word: "outrage",
+                options: ["outrage", "courage", "storage", "vintage"],
+                hint: "스페인 총리 기사에서 주택 위기로 촉발된 '분노'를 뜻하는 단어"
+            },
+            {
+                ipa: "/ʃɪp/",
+                word: "ship",
+                options: ["sheep", "ship", "chip", "shape"],
+                hint: "바다에 떠다니는 큰 '배'"
+            },
+            {
+                ipa: "/θɪŋk/",
+                word: "think",
+                options: ["sink", "thank", "think", "thick"],
+                hint: "번데기 발음 /θ/로 시작하는 '생각하다'"
+            },
+            {
+                ipa: "/kæt/",
+                word: "cat",
+                options: ["cut", "cot", "coat", "cat"],
+                hint: "입을 크게 찢는 /æ/ 소리의 '고양이'"
+            },
+            {
+                ipa: "/ˈkɜː.nəl/",
+                word: "colonel",
+                options: ["corner", "colonel", "kernel", "color"],
+                hint: "l 철자가 있지만 발음은 커널인 군대 '대령'"
+            },
+            {
+                ipa: "/dɪˈtɜː.mɪn/",
+                word: "determine",
+                options: ["determine", "detergent", "terminal", "detour"],
+                hint: "'디터민'으로 발음되는 '결정하다'"
+            }
+        ];
+
+        let currentQuizIdx = 0;
+
+        function loadQuiz(idx) {
+            const q = QUIZ_BANK[idx];
+            document.getElementById('quizTarget').innerText = q.ipa;
+            document.getElementById('quizFeedback').innerText = '';
+
+            const optContainer = document.getElementById('quizOptions');
+            optContainer.innerHTML = '';
+
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-opt-btn';
+                btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle"></i>`;
+                btn.onclick = () => checkAnswer(opt, q.word, btn);
+                optContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct, btn) {
+            const allBtns = document.querySelectorAll('.quiz-opt-btn');
+            allBtns.forEach(b => b.disabled = true);
+
+            const feedback = document.getElementById('quizFeedback');
+
+            if (selected === correct) {
+                btn.classList.add('correct');
+                btn.querySelector('i').className = 'fa-solid fa-circle-check';
+                feedback.innerHTML = `<span style="color:var(--success);"><i class="fa-solid fa-circle-check"></i> 정답입니다! (${correct})</span>`;
+                speakWord(correct);
+            } else {
+                btn.classList.add('wrong');
+                btn.querySelector('i').className = 'fa-solid fa-circle-xmark';
+                feedback.innerHTML = `<span style="color:#ef4444;"><i class="fa-solid fa-triangle-exclamation"></i> 오답입니다. 정답은 <strong>${correct}</strong> 입니다.</span>`;
+                speakWord(correct);
+            }
+        }
+
+        function playQuizTargetAudio() {
+            const q = QUIZ_BANK[currentQuizIdx];
+            speakWord(q.word);
+        }
+
+        function nextQuiz() {
+            currentQuizIdx = (currentQuizIdx + 1) % QUIZ_BANK.length;
+            loadQuiz(currentQuizIdx);
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuiz(0);
+        });
+    </script>
+</body>
+</html>

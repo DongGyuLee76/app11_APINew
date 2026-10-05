@@ -854,6 +854,12 @@ def index():
     return render_template('index.html', categories=CATEGORY_URLS)
 
 
+@app.route('/ipa')
+def ipa_guide():
+    """국제표준 발음기호(IPA) 완벽 가이드 페이지."""
+    return render_template('ipa_guide.html')
+
+
 @app.route('/api/news', methods=['GET'])
 def api_get_news():
     """AP News 헤드라인 API."""
