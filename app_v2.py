@@ -37,9 +37,16 @@ except ImportError:
 
 from flask import Flask, render_template, request, jsonify, send_file
 
+import requests
 from bs4 import BeautifulSoup
 from gtts import gTTS
-from googletrans import Translator
+
+try:
+    from googletrans import Translator
+    HAS_GOOGLETRANS = True
+except Exception as e:
+    Translator = None
+    HAS_GOOGLETRANS = False
 
 # Optional Libraries with graceful fallback
 try:
@@ -98,7 +105,7 @@ except ImportError:
 # ===================== Thread-safe Translator =====================
 
 _translator_lock = threading.Lock()
-_translator = Translator()
+_translator = Translator() if (HAS_GOOGLETRANS and Translator) else None
 
 
 def _get_translator():
@@ -113,8 +120,12 @@ def _get_translator():
 def _reset_translator():
     """Translator 세션 만료/오류 시 인스턴스를 재생성한다."""
     global _translator
-    _translator = Translator()
-    logger.info("Translator instance reset due to session expiry or error")
+    if HAS_GOOGLETRANS and Translator:
+        try:
+            _translator = Translator()
+            logger.info("Translator instance reset due to session expiry or error")
+        except Exception:
+            _translator = None
 
 
 # ===================== LRU-style Bounded Cache =====================
@@ -499,10 +510,35 @@ def get_article_summary(url):
         return f"요약 실패: {str(e)}"
 
 
+def _translate_via_web(text):
+    """Google Translate 무료 웹 API 직접 호출 (cgi/googletrans 의존성 없이 Python 3.13+ 완벽 호환)"""
+    try:
+        url = "https://translate.googleapis.com/translate_a/single"
+        params = {
+            "client": "gtx",
+            "sl": "en",
+            "tl": "ko",
+            "dt": "t",
+            "q": text
+        }
+        res = requests.get(url, params=params, timeout=7)
+        if res.status_code == 200:
+            data = res.json()
+            if isinstance(data, list) and data and isinstance(data[0], list):
+                translated_parts = [part[0] for part in data[0] if part and len(part) > 0 and part[0]]
+                if translated_parts:
+                    return "".join(translated_parts)
+    except Exception as e:
+        logger.warning(f"Direct Google Translate Web API failed: {e}")
+    return None
+
+
 def translate_text(text):
     """
     영문 텍스트를 한국어로 번역한다.
-    googletrans 세션 만료 시 Translator를 재생성하여 자동 복구한다.
+    1) 캐시 확인
+    2) googletrans 사용 시도
+    3) 실패 또는 googletrans 미지원 시 직접 Web API로 자동 폴백
     """
     clean_text = text.strip()
     if not clean_text:
@@ -510,22 +546,31 @@ def translate_text(text):
     if clean_text in TRANSLATION_CACHE:
         return TRANSLATION_CACHE[clean_text]
 
-    max_retries = 2
-    for attempt in range(max_retries):
-        try:
-            with _translator_lock:
-                t = _get_translator()
-                res = t.translate(clean_text, src='en', dest='ko')
-                translated = res.text
-                TRANSLATION_CACHE[clean_text] = translated
-                return translated
-        except Exception as e:
-            logger.warning(f"Translation attempt {attempt + 1} failed: {e}")
-            if attempt < max_retries - 1:
+    # 1순위: googletrans (설치 및 동작 가능한 환경)
+    if HAS_GOOGLETRANS and _translator:
+        max_retries = 2
+        for attempt in range(max_retries):
+            try:
                 with _translator_lock:
-                    _reset_translator()
-            else:
-                return f"번역 오류: {str(e)}"
+                    t = _get_translator()
+                    if t:
+                        res = t.translate(clean_text, src='en', dest='ko')
+                        if res and res.text:
+                            TRANSLATION_CACHE[clean_text] = res.text
+                            return res.text
+            except Exception as e:
+                logger.warning(f"Translation attempt {attempt + 1} failed: {e}")
+                if attempt < max_retries - 1:
+                    with _translator_lock:
+                        _reset_translator()
+
+    # 2순위: Google Translate Web API 직접 호출 (Python 3.13/3.14 호환, cgi 불필요)
+    web_res = _translate_via_web(clean_text)
+    if web_res:
+        TRANSLATION_CACHE[clean_text] = web_res
+        return web_res
+
+    return "번역 오류가 발생했습니다."
 
 
 def get_pronunciation(word):
