@@ -208,6 +208,32 @@ _DEFAULT_HEADERS = {
 # ===================== Core Functions =====================
 
 
+def safe_fetch_html(url, timeout=15):
+    """
+    버전 호환성과 Cloudflare 우회를 모두 보장하는 안전한 웹 요청 함수.
+    1. curl_cffi impersonate='chrome' 시도 (모든 curl_cffi 버전 지원)
+    2. curl_cffi impersonate='chrome120' 시도
+    3. curl_cffi 기본 요청
+    4. requests.get 일반 HTTP 요청
+    """
+    headers = _DEFAULT_HEADERS
+    if HAS_CURL_CFFI:
+        for imp in ['chrome', 'chrome120', None]:
+            try:
+                if imp:
+                    res = c_requests.get(url, headers=headers, impersonate=imp, timeout=timeout)
+                else:
+                    res = c_requests.get(url, headers=headers, timeout=timeout)
+                if res.status_code in [200, 301, 302]:
+                    return res
+            except Exception as e:
+                logger.debug(f"c_requests attempt with imp={imp} failed: {e}")
+                continue
+
+    # 일반 requests 폴백 (리다이렉트 자동 추적)
+    return requests.get(url, headers=headers, timeout=timeout, allow_redirects=True)
+
+
 def check_url_health(url):
     """
     AP News URL의 접근 가능 여부를 확인하고 헬스 정보를 반환한다.
@@ -230,16 +256,8 @@ def check_url_health(url):
         return result
 
     try:
-        if HAS_CURL_CFFI:
-            res = c_requests.get(
-                url, headers=_DEFAULT_HEADERS,
-                impersonate='chrome120', timeout=12
-            )
-            result['method'] = 'curl_cffi (Chrome Impersonation)'
-        else:
-            res = c_requests.get(url, headers=_DEFAULT_HEADERS, timeout=10)
-            result['method'] = 'Standard requests'
-
+        res = safe_fetch_html(url, timeout=12)
+        result['method'] = 'Safe Web Fetcher (curl_cffi / requests)'
         result['status_code'] = res.status_code
         result['latency_ms'] = int((time.time() - start_time) * 1000)
 
@@ -273,15 +291,9 @@ def check_url_health(url):
 
 def fetch_ap_news_direct(target_url):
     """
-    curl_cffi Chrome Impersonation으로 AP News 웹페이지를 직접 크롤링한다.
+    Chrome Impersonation으로 AP News 웹페이지를 직접 크롤링한다.
     """
-    if not HAS_CURL_CFFI:
-        raise RuntimeError("curl_cffi is required for direct AP News scraping")
-
-    res = c_requests.get(
-        target_url, headers=_DEFAULT_HEADERS,
-        impersonate='chrome120', timeout=15
-    )
+    res = safe_fetch_html(target_url, timeout=15)
     if res.status_code != 200:
         raise RuntimeError(f"HTTP Status {res.status_code}")
 
@@ -466,9 +478,19 @@ def get_ap_news(category='top', custom_url=None, force_refresh=False):
     return items, source
 
 
+def find_article_description_by_url(url):
+    """URL에 해당하는 기사의 기존 RSS 설명문/개요가 있는지 캐시에서 조회한다."""
+    for cat_data in NEWS_CACHE.values():
+        for item in cat_data.get('data', []):
+            if item.get('link') == url and item.get('description'):
+                return item.get('description')
+    return None
+
+
 def get_article_summary(url):
     """
     기사 원문 링크에서 본문을 크롤링하여 앞부분 3~4개 문단을 요약본으로 추출한다.
+    실패 시 기존 RSS 설명문으로 자동 폴백하여 오류를 방지한다.
     """
     if url in SUMMARY_CACHE:
         return SUMMARY_CACHE[url]
@@ -477,13 +499,7 @@ def get_article_summary(url):
         return "유효한 기사 링크가 없습니다."
 
     try:
-        if HAS_CURL_CFFI:
-            res = c_requests.get(url, headers=_DEFAULT_HEADERS, impersonate='chrome120', timeout=15)
-        else:
-            res = c_requests.get(url, headers=_DEFAULT_HEADERS, timeout=15)
-
-        if res.status_code != 200:
-            return f"기사 본문을 가져올 수 없습니다. (HTTP {res.status_code})"
+        res = safe_fetch_html(url, timeout=15)
 
         soup = BeautifulSoup(res.text, 'html.parser')
         
@@ -498,7 +514,13 @@ def get_article_summary(url):
                 text_blocks.append(text)
 
         if not text_blocks:
-            return "기사 본문 텍스트를 추출할 수 없습니다."
+            # RSS 기사이거나 본문 파싱이 안 되는 경우 RSS 설명문(description) 활용
+            desc = find_article_description_by_url(url)
+            if desc and len(desc.strip()) > 25:
+                clean_desc = BeautifulSoup(desc, 'html.parser').get_text(strip=True)
+                SUMMARY_CACHE[url] = clean_desc
+                return clean_desc
+            return "기사 본문 텍스트를 추출할 수 없습니다. 원문 읽기 링크를 이용해 주세요."
 
         # 처음 3~4개의 주요 문단을 합쳐 요약본으로 생성
         summary_text = " ".join(text_blocks[:3])
@@ -507,6 +529,12 @@ def get_article_summary(url):
         return summary_text
     except Exception as e:
         logger.error(f"Summary extraction failed for {url}: {e}")
+        # 오류 발생 시에도 캐시된 RSS 설명문이 있다면 즉시 복구
+        desc = find_article_description_by_url(url)
+        if desc and len(desc.strip()) > 25:
+            clean_desc = BeautifulSoup(desc, 'html.parser').get_text(strip=True)
+            SUMMARY_CACHE[url] = clean_desc
+            return clean_desc
         return f"요약 실패: {str(e)}"
 
 
