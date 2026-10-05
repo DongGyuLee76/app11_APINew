@@ -11,6 +11,7 @@ import sys
 import io
 import re
 import os
+import json
 import time
 import logging
 import threading
@@ -386,11 +387,21 @@ def fetch_ap_news_rss(category='top'):
 
         if title and len(title) > 20 and title not in seen_titles:
             seen_titles.add(title)
+            # 불필요한 RSS 링크/HTML 태그 및 중복 제목 제거
+            raw_desc = getattr(entry, 'summary', '')
+            clean_desc = ''
+            if raw_desc:
+                desc_soup = BeautifulSoup(raw_desc, 'html.parser')
+                clean_desc = desc_soup.get_text(strip=True)
+                clean_desc = re.sub(r'apnews\.com$', '', clean_desc, flags=re.I).strip()
+                if clean_desc.lower() == title.lower() or len(clean_desc) < 25:
+                    clean_desc = ''
+
             items.append({
                 'id': len(items) + 1,
                 'title': title,
                 'link': entry.link,
-                'description': getattr(entry, 'summary', ''),
+                'description': clean_desc,
                 'published': getattr(entry, 'published', ''),
                 'source': 'AP News RSS Feed'
             })
@@ -487,10 +498,70 @@ def find_article_description_by_url(url):
     return None
 
 
+def resolve_google_news_url(url):
+    """
+    Google News RSS 암호화 링크(news.google.com/rss/articles/...)를
+    실제 AP News 원문 링크(apnews.com/article/...)로 복원한다.
+    """
+    if 'news.google.com' not in url:
+        return url
+    try:
+        art_id = urlparse(url).path.split('/')[-1]
+        rss_page = f"https://news.google.com/rss/articles/{art_id}?hl=en-US&gl=US&ceid=US:en"
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/124.0.0.0 Safari/537.36'}
+        res = requests.get(rss_page, headers=headers, timeout=8)
+        sg = re.search(r'data-n-a-sg="([^"]+)"', res.text)
+        ts = re.search(r'data-n-a-ts="([^"]+)"', res.text)
+        if sg and ts:
+            ctx = [["X", "X", ["X", "X"], None, None, 1, 1, "US:en", None, 1, None, None, None, None, None, 0, 1], "X", "X", 1, [1, 1, 1], 1, 1, None, 0, 0, None, 0]
+            inner = ["garturlreq", ctx, art_id, int(ts.group(1)), sg.group(1)]
+            envelope = [["Fbv4je", json.dumps(inner, separators=(',', ':')), None, "0"]]
+            post_body = f"f.req={quote(json.dumps([envelope], separators=(',', ':')))}"
+            post_res = requests.post(
+                'https://news.google.com/_/DotsSplashUi/data/batchexecute',
+                headers={'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8', 'User-Agent': headers['User-Agent']},
+                data=post_body,
+                timeout=8
+            )
+            urls = re.findall(r'https?://(?:www\.)?apnews\.com/article/[^\s\\\"\'\]]+', post_res.text)
+            if urls:
+                logger.info(f"Resolved Google News URL to AP News: {urls[0]}")
+                return urls[0]
+    except Exception as e:
+        logger.warning(f"Google News URL resolution failed: {e}")
+    return url
+
+
+def extract_paragraphs_from_jina(article_url):
+    """r.jina.ai를 이용해 Cloudflare 차단을 우회하여 AP News 본문 문단을 추출한다."""
+    try:
+        jina_url = f"https://r.jina.ai/{article_url}"
+        res = requests.get(jina_url, timeout=12)
+        if res.status_code == 200:
+            lines = [l.strip() for l in res.text.split('\n') if l.strip()]
+            story_lines = []
+            capturing = False
+            for l in lines:
+                # AP News 본문 시작 패턴 감지 ((AP) — 또는 dateline)
+                if '(AP) —' in l or '(AP) --' in l or re.search(r'\b[A-Z\s]{3,20}\s*\(AP\)', l):
+                    capturing = True
+                if capturing:
+                    if len(l) > 40 and not l.startswith('[') and not l.startswith('!') and not l.startswith('#'):
+                        clean_line = re.sub(r'\[([^\]]+)\]\([^\)]+\)', r'\1', l).strip()
+                        story_lines.append(clean_line)
+                    if len(story_lines) >= 4:
+                        break
+            if story_lines:
+                return story_lines
+    except Exception as e:
+        logger.warning(f"Jina fallback failed for {article_url}: {e}")
+    return []
+
+
 def get_article_summary(url):
     """
     기사 원문 링크에서 본문을 크롤링하여 앞부분 3~4개 문단을 요약본으로 추출한다.
-    실패 시 기존 RSS 설명문으로 자동 폴백하여 오류를 방지한다.
+    Google News 암호화 링크 복원 및 Cloudflare 우회(Jina)를 지원한다.
     """
     if url in SUMMARY_CACHE:
         return SUMMARY_CACHE[url]
@@ -498,44 +569,46 @@ def get_article_summary(url):
     if not url.startswith('http'):
         return "유효한 기사 링크가 없습니다."
 
+    # 1단계: Google News RSS 링크인 경우 실제 AP News 원문 링크로 변환
+    target_url = resolve_google_news_url(url)
+
+    text_blocks = []
+
+    # 2단계: 직접 웹 페이지 HTML 크롤링 시도
     try:
-        res = safe_fetch_html(url, timeout=15)
-
-        soup = BeautifulSoup(res.text, 'html.parser')
-        
-        # AP News 본문 탐색
-        paragraphs = soup.select('.RichTextStoryBody p, .StoryBody p, main p, article p')
-        
-        text_blocks = []
-        for p in paragraphs:
-            text = p.get_text(strip=True)
-            # 너무 짧은 텍스트(광고/메타) 제외
-            if len(text) > 60:
-                text_blocks.append(text)
-
-        if not text_blocks:
-            # RSS 기사이거나 본문 파싱이 안 되는 경우 RSS 설명문(description) 활용
-            desc = find_article_description_by_url(url)
-            if desc and len(desc.strip()) > 25:
-                clean_desc = BeautifulSoup(desc, 'html.parser').get_text(strip=True)
-                SUMMARY_CACHE[url] = clean_desc
-                return clean_desc
-            return "기사 본문 텍스트를 추출할 수 없습니다. 원문 읽기 링크를 이용해 주세요."
-
-        # 처음 3~4개의 주요 문단을 합쳐 요약본으로 생성
-        summary_text = " ".join(text_blocks[:3])
-        
-        SUMMARY_CACHE[url] = summary_text
-        return summary_text
+        res = safe_fetch_html(target_url, timeout=12)
+        if res.status_code == 200:
+            soup = BeautifulSoup(res.text, 'html.parser')
+            paragraphs = soup.select('.RichTextStoryBody p, .StoryBody p, main p, article p')
+            for p in paragraphs:
+                text = p.get_text(strip=True)
+                if len(text) > 60:
+                    text_blocks.append(text)
     except Exception as e:
-        logger.error(f"Summary extraction failed for {url}: {e}")
-        # 오류 발생 시에도 캐시된 RSS 설명문이 있다면 즉시 복구
-        desc = find_article_description_by_url(url)
-        if desc and len(desc.strip()) > 25:
-            clean_desc = BeautifulSoup(desc, 'html.parser').get_text(strip=True)
+        logger.warning(f"Direct summary fetch failed: {e}")
+
+    # 3단계: Cloudflare 403 차단 시 Jina Reader 우회 추출
+    if not text_blocks and 'apnews.com/article' in target_url:
+        logger.info(f"Using Jina Reader bypass for {target_url}")
+        text_blocks = extract_paragraphs_from_jina(target_url)
+
+    # 4단계: 문단이 추출되었으면 처음 3개 문단을 합쳐 요약본 생성
+    if text_blocks:
+        summary_text = " ".join(text_blocks[:3])
+        SUMMARY_CACHE[url] = summary_text
+        if target_url != url:
+            SUMMARY_CACHE[target_url] = summary_text
+        return summary_text
+
+    # 5단계: 최후의 수단 - 캐시된 설명문이 있는지 확인 (더미/제목 제외)
+    desc = find_article_description_by_url(url)
+    if desc and len(desc.strip()) > 35:
+        clean_desc = BeautifulSoup(desc, 'html.parser').get_text(strip=True)
+        if not clean_desc.endswith('apnews.com'):
             SUMMARY_CACHE[url] = clean_desc
             return clean_desc
-        return f"요약 실패: {str(e)}"
+
+    return "기사 본문 요약을 추출할 수 없습니다. 원문 읽기 링크를 이용해 주세요."
 
 
 def _translate_via_web(text):

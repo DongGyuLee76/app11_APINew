@@ -166,7 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'article-card';
             card.id = `art-card-${art.id}`;
 
-            const descHtml = art.description ? `<p class="article-desc">${escapeHtml(art.description)}</p>` : '';
+            let cleanDesc = (art.description || '').trim();
+            if (cleanDesc.includes('<a ') || cleanDesc.includes('&lt;a ') || cleanDesc.includes('font color=') || cleanDesc.toLowerCase() === (art.title || '').toLowerCase()) {
+                cleanDesc = '';
+            }
+            const descHtml = cleanDesc ? `<p class="article-desc">${escapeHtml(cleanDesc)}</p>` : '';
             const linkHtml = art.link ? `
                 <a href="${art.link}" target="_blank" rel="noopener noreferrer" class="article-link" title="AP News 원문 기사 열기">
                     <span>AP News 원문</span>
