@@ -1,0 +1,9 @@
+kivy==2.2.1
+kivymd==1.1.1
+requests==2.31.0
+beautifulsoup4==4.12.2
+gtts==2.4.0
+googletrans==4.0.0rc1
+nltk==3.8.1
+eng-to-ipa==0.0.2
+certifi

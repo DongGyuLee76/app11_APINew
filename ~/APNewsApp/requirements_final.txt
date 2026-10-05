@@ -1,0 +1,10 @@
+kivy==2.2.1
+kivymd==1.1.1
+requests==2.31.0
+beautifulsoup4==4.12.2
+gtts==2.4.0
+certifi
+charset-normalizer
+urllib3
+idna
+click

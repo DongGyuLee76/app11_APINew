@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP News App - 배포 가이드 (GitHub & Web)</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --container-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --border: #e2e8f0;
+            --code-bg: #f1f5f9;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border);
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: var(--primary);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 15px;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: #334155;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95rem;
+            color: #475569;
+        }
+
+        code {
+            background-color: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: #b91c1c;
+        }
+
+        .alert {
+            background-color: #fffbeb;
+            border-left: 4px solid #f59e0b;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #92400e;
+        }
+
+        .alert strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        ul, ol {
+            margin-bottom: 20px;
+            padding-left: 25px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .step-badge {
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🚀 AP News 웹앱 GitHub 업로드 및 배포 가이드</h1>
+    <p>본 문서는 작성하신 <strong>Flask 기반 AP News 영어 학습 플랫폼(app_v2.py)</strong> 소스 코드를 GitHub에 안전하게 업로드하고, 전 세계 어디서든 접속할 수 있도록 웹 서버에 무료로 배포하는 방법을 안내합니다.</p>
+
+    <!-- SECTION 1 -->
+    <h2><span class="step-badge">Phase 1</span> 배포를 위한 사전 준비</h2>
+    <p>웹 서버가 파이썬 환경을 구성할 수 있도록 필수 파일 두 가지(의존성 파일, 무시 파일)를 만듭니다.</p>
+    
+    <h3>1. <code>requirements.txt</code> 생성</h3>
+    <p>터미널(명령 프롬프트 또는 PowerShell)에서 프로젝트 폴더로 이동한 뒤, 아래 패키지 목록을 담은 <code>requirements.txt</code> 파일을 생성하세요.</p>
+    <pre>
+Flask==3.0.0
+flask-cors==4.0.0
+beautifulsoup4==4.12.2
+requests==2.31.0
+curl_cffi==0.5.9
+gTTS==2.4.0
+googletrans==4.0.0-rc1
+feedparser==6.0.10
+eng_to_ipa==0.0.2
+nltk==3.8.1
+</pre>
+
+    <h3>2. <code>.gitignore</code> 파일 생성</h3>
+    <p>불필요한 캐시 파일이나 파이썬 가상환경 파일이 GitHub에 올라가지 않도록 프로젝트 최상단 폴더에 <code>.gitignore</code> 파일을 만듭니다.</p>
+    <pre>
+# 파이썬 캐시
+__pycache__/
+*.pyc
+
+# 가상 환경
+venv/
+env/
+.env
+
+# NLTK 데이터 등
+nltk_data/
+</pre>
+
+    <!-- SECTION 2 -->
+    <h2><span class="step-badge">Phase 2</span> GitHub에 소스 코드 올리기</h2>
+    
+    <h3>1. GitHub 저장소(Repository) 생성</h3>
+    <ol>
+        <li><a href="https://github.com" target="_blank">GitHub</a>에 로그인합니다.</li>
+        <li>우측 상단의 <strong>+</strong> 버튼을 누르고 <strong>New repository</strong>를 클릭합니다.</li>
+        <li>저장소 이름(예: <code>apnews-english-lab</code>)을 입력하고 <strong>Public</strong>으로 설정한 뒤 <strong>Create repository</strong>를 클릭합니다.</li>
+    </ol>
+
+    <h3>2. 로컬에서 Git으로 업로드</h3>
+    <p>터미널을 열고 프로젝트 폴더(<code>e:\01_git\HK_DX_Model\28_APNews</code>)에서 다음 명령어를 순서대로 입력합니다.</p>
+    <pre>
+# Git 초기화
+git init
+
+# 모든 파일 추가
+git add .
+
+# 첫 커밋 작성
+git commit -m "🚀 Initial commit: AP News English Lab v2"
+
+# 브랜치명 main으로 변경
+git branch -M main
+
+# GitHub 원격 저장소 연결 (본인의 GitHub 주소로 변경하세요)
+git remote add origin https://github.com/[본인아이디]/[저장소이름].git
+
+# 푸시하여 업로드 완료!
+git push -u origin main
+</pre>
+
+
+    <!-- SECTION 3 -->
+    <h2><span class="step-badge">Phase 3</span> 웹으로 구동하기 (Render.com 추천)</h2>
+    <p>우리가 사용하는 <code>curl_cffi</code> 모듈(Cloudflare 우회 엔진)은 C 모듈을 포함하고 있어 일부 무료 호스팅(PythonAnywhere 등)에서 작동하지 않을 수 있습니다. 따라서 컨테이너 기반의 <strong>Render.com</strong> 웹 서비스를 무료로 사용하는 것을 강력히 추천합니다.</p>
+
+    <div class="alert">
+        <strong>⚠️ 중요: 시작 명령 파일(Procfile) 생성 혹은 app.py 이름 변경</strong>
+        Render 서버는 기본적으로 <code>app.py</code>를 찾습니다. 
+        <code>app_v2.py</code>를 실행하게 하려면 Gunicorn이 필요합니다.<br>
+        <code>requirements.txt</code> 맨 끝에 <code>gunicorn</code>을 추가하고 배포하세요.
+    </div>
+
+    <h3>1. Render 가입 및 Web Service 생성</h3>
+    <ol>
+        <li><a href="https://render.com" target="_blank">Render.com</a>에 접속하여 GitHub 계정으로 로그인합니다.</li>
+        <li>Dashboard에서 <strong>New +</strong> 버튼을 클릭하고 <strong>Web Service</strong>를 선택합니다.</li>
+        <li><strong>Build and deploy from a Git repository</strong>를 선택하고, 앞서 만든 GitHub 저장소를 연결(Connect)합니다.</li>
+    </ol>
+
+    <h3>2. 서비스 설정 및 배포 (Deploy)</h3>
+    <p>연결 후 나오는 설정 화면에서 아래와 같이 설정하세요.</p>
+    <ul>
+        <li><strong>Name:</strong> apnews-english-lab (자유롭게 입력)</li>
+        <li><strong>Language:</strong> Python 3</li>
+        <li><strong>Branch:</strong> main</li>
+        <li><strong>Build Command:</strong> 
+            <pre style="margin-top: 5px; margin-bottom: 5px;">pip install -r requirements.txt</pre>
+        </li>
+        <li><strong>Start Command:</strong>
+            <pre style="margin-top: 5px; margin-bottom: 5px;">gunicorn app_v2:app</pre>
+        </li>
+        <li><strong>Instance Type:</strong> Free (무료 플랜 선택)</li>
+    </ul>
+
+    <h3>3. NLTK 사전 데이터 다운로드 (선택사항)</h3>
+    <p>서버가 처음 시작할 때 <code>app_v2.py</code> 안에 작성해 둔 코드가 자동으로 `wordnet` 데이터를 다운로드하므로 특별한 설정이 필요하지 않습니다. (자동화 완료됨)</p>
+
+    <h3>4. 배포 완료 확인</h3>
+    <p><strong>Create Web Service</strong> 버튼을 누르면 서버가 셋팅(Build)을 시작합니다. 로그(Logs) 탭을 보면서 <code>Build successful</code>이 뜨면, 좌측 상단에 제공된 URL (예: <code>https://apnews-english-lab.onrender.com</code>)을 클릭하여 전 세계 어디서든 접속하세요!</p>
+
+    <footer>
+        <p>Copyright © 2026 AP News English Lab. All rights reserved.</p>
+    </footer>
+</div>
+
+</body>
+</html>

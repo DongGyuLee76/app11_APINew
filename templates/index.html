@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AP News - 실시간 영어 뉴스 & 단어 학습 플랫폼</title>
+    <meta name="description" content="AP News 최신 헤드라인을 실시간으로 확인하고, 한글 번역, 원어민 TTS 발음 듣기, 단어별 IPA 발음기호 및 품사 분석을 학습할 수 있는 플랫폼">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <div class="brand-logo">
+                    <span class="logo-badge">AP</span>
+                    <span class="brand-title">News Reader & English Lab</span>
+                </div>
+                <div class="connection-status" id="connectionBadge">
+                    <span class="status-dot"></span>
+                    <span class="status-text">연결 확인 중...</span>
+                </div>
+            </div>
+
+            <!-- Header Controls -->
+            <div class="header-actions">
+                <button class="btn btn-outline" id="btnUrlModal" title="AP News URL 검사기">
+                    <i class="fa-solid fa-stethoscope"></i>
+                    <span>URL 체크기</span>
+                </button>
+                <button class="btn btn-primary" id="btnRefresh" title="새로고침">
+                    <i class="fa-solid fa-rotate-right"></i>
+                    <span>새로고침</span>
+                </button>
+                <button class="theme-toggle" id="btnThemeToggle" title="화면 모드 전환">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Category Bar -->
+        <nav class="category-bar">
+            <div class="category-scroll">
+                <button class="cat-pill active" data-cat="top">
+                    <i class="fa-solid fa-fire"></i> 종합 헤드라인 (Top)
+                </button>
+                <button class="cat-pill" data-cat="world">
+                    <i class="fa-solid fa-globe"></i> 세계 (World)
+                </button>
+                <button class="cat-pill" data-cat="us">
+                    <i class="fa-solid fa-flag-usa"></i> 미국 (US)
+                </button>
+                <button class="cat-pill" data-cat="business">
+                    <i class="fa-solid fa-chart-line"></i> 경제 (Business)
+                </button>
+                <button class="cat-pill" data-cat="technology">
+                    <i class="fa-solid fa-microchip"></i> 테크 (Technology)
+                </button>
+                <button class="cat-pill" data-cat="sports">
+                    <i class="fa-solid fa-futbol"></i> 스포츠 (Sports)
+                </button>
+                <button class="cat-pill" data-cat="entertainment">
+                    <i class="fa-solid fa-film"></i> 엔터 (Entertainment)
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Layout -->
+    <main class="main-wrapper">
+        <div class="content-container">
+            <!-- News Feed Column -->
+            <section class="feed-section">
+                <!-- Feed Header -->
+                <div class="feed-header-card">
+                    <div class="feed-meta">
+                        <h1 class="feed-heading" id="currentCategoryTitle">📌 주요 AP 기사 헤드라인</h1>
+                        <p class="feed-sub" id="feedSourceText">데이터 수집 중...</p>
+                    </div>
+                    <div class="feed-stats-pills">
+                        <span class="stat-pill"><i class="fa-solid fa-newspaper"></i> <strong id="articleCount">0</strong>개 기사</span>
+                        <span class="stat-pill" id="cacheTimePill"><i class="fa-regular fa-clock"></i> 방금 전</span>
+                    </div>
+                </div>
+
+                <!-- Custom URL Bar (Quick access) -->
+                <div class="custom-url-bar">
+                    <div class="input-group">
+                        <span class="input-icon"><i class="fa-solid fa-link"></i></span>
+                        <input type="text" id="customUrlInput" placeholder="직접 크롤링할 AP News URL 입력 (예: https://apnews.com/world-news)" value="https://apnews.com/">
+                        <button class="btn btn-sm btn-info" id="btnCheckInputUrl">
+                            <i class="fa-solid fa-check-double"></i> 상태 검사
+                        </button>
+                        <button class="btn btn-sm btn-accent" id="btnLoadCustomUrl">
+                            <i class="fa-solid fa-arrow-down-long"></i> 기사 가져오기
+                        </button>
+                    </div>
+                    <div id="urlQuickResult" class="url-quick-result hidden"></div>
+                </div>
+
+                <!-- Articles Container -->
+                <div id="articlesList" class="articles-list">
+                    <!-- Loading Skeleton -->
+                    <div class="loading-state" id="loadingState">
+                        <div class="spinner"></div>
+                        <p class="loading-text">AP News 최신 기사를 수집하고 있습니다...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sidebar Column -->
+            <aside class="sidebar-section">
+                <!-- 학습 가이드 카드 -->
+                <div class="side-card">
+                    <div class="side-card-header">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <h3>영어 학습 기능 가이드</h3>
+                    </div>
+                    <div class="side-card-body">
+                        <ul class="guide-steps">
+                            <li>
+                                <span class="step-num">1</span>
+                                <div class="step-info">
+                                    <strong>🔊 원어민 TTS 듣기</strong>
+                                    <p>클릭 즉시 기사 문장을 고음질 영어 음성으로 청취합니다.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="step-num">2</span>
+                                <div class="step-info">
+                                    <strong>🇰🇷 실시간 한글 번역</strong>
+                                    <p>정확한 직독직해 한글 번역을 토글하여 문맥을 비교합니다.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="step-num">3</span>
+                                <div class="step-info">
+                                    <strong>📚 단어 정밀 분석</strong>
+                                    <p>국제음성기호(IPA), 품사 분류, WordNet 사전 뜻을 분석합니다.</p>
+                                </div>
+                            </li>
+                            <li>
+                                <span class="step-num">4</span>
+                                <div class="step-info">
+                                    <strong>📝 원문 요약 추출</strong>
+                                    <p>기사 본문을 크롤링하여 핵심 문단을 요약합니다 (음성 듣기 및 번역 지원).</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 품사 & IPA 안내 카드 -->
+                <div class="side-card">
+                    <div class="side-card-header">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                        <h3>문법 및 발음 기호 (IPA)</h3>
+                    </div>
+                    <div class="side-card-body">
+                        <div class="guide-tabs">
+                            <span class="guide-badge pos-badge n">명사 (n)</span>
+                            <span class="guide-badge pos-badge v">동사 (v)</span>
+                            <span class="guide-badge pos-badge a">형용사 (a)</span>
+                            <span class="guide-badge pos-badge r">부사 (r)</span>
+                        </div>
+                        <div class="ipa-sample-list">
+                            <div class="ipa-item"><span class="ipa-sym">/ə/</span> <span class="ipa-desc">schwa (어)</span></div>
+                            <div class="ipa-item"><span class="ipa-sym">/θ/</span> <span class="ipa-desc">thin (무성 th)</span></div>
+                            <div class="ipa-item"><span class="ipa-sym">/ð/</span> <span class="ipa-desc">this (유성 th)</span></div>
+                            <div class="ipa-item"><span class="ipa-sym">/ʃ/</span> <span class="ipa-desc">she (쉬)</span></div>
+                            <div class="ipa-item"><span class="ipa-sym">/ʒ/</span> <span class="ipa-desc">measure (쥐)</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 시스템 성능 카드 -->
+                <div class="side-card">
+                    <div class="side-card-header">
+                        <i class="fa-solid fa-server"></i>
+                        <h3>서버 & 캐시 상태</h3>
+                    </div>
+                    <div class="side-card-body">
+                        <div class="stat-grid">
+                            <div class="stat-box">
+                                <span class="stat-val" id="statArticles">0</span>
+                                <span class="stat-lbl">캐시 기사</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-val" id="statTrans">0</span>
+                                <span class="stat-lbl">번역 캐시</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-val" id="statAnalyses">0</span>
+                                <span class="stat-lbl">단어 분석</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-val" id="statSummaries">0</span>
+                                <span class="stat-lbl">요약 캐시</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-val" id="statBypass">ON</span>
+                                <span class="stat-lbl">CF 우회엔진</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- URL Health Check Modal -->
+    <div class="modal-backdrop" id="urlModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-network-wired"></i> AP News URL 작동 상태 정밀 검사</h3>
+                <button class="modal-close" id="btnCloseModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-desc">
+                    AP News 웹사이트는 Cloudflare 보안 방화벽이 적용되어 있어 일반 스크래퍼 접속 시 403 차단이 발생할 수 있습니다. 
+                    본 앱의 <strong>curl_cffi 브라우저 가장 엔진</strong>을 통해 해당 URL이 정상 우회/작동하는지 즉시 테스트합니다.
+                </p>
+
+                <div class="form-group">
+                    <label for="checkModalUrl">검사할 대상 URL:</label>
+                    <div class="input-group">
+                        <input type="text" id="checkModalUrl" value="https://apnews.com/">
+                        <button class="btn btn-primary" id="btnRunModalCheck">
+                            <i class="fa-solid fa-play"></i> 검사 실행
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Presets -->
+                <div class="preset-links">
+                    <span class="preset-label">빠른 선택:</span>
+                    <button class="preset-btn" data-url="https://apnews.com/">기본 메인</button>
+                    <button class="preset-btn" data-url="https://apnews.com/world-news">월드 뉴스</button>
+                    <button class="preset-btn" data-url="https://apnews.com/us-news">미국 뉴스</button>
+                    <button class="preset-btn" data-url="https://apnews.com/business">비즈니스</button>
+                </div>
+
+                <!-- Test Result Container -->
+                <div class="check-result-box hidden" id="modalCheckResult">
+                    <div class="result-row">
+                        <span class="res-title">응답 상태:</span>
+                        <span class="res-val" id="resStatus">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="res-title">응답 속도:</span>
+                        <span class="res-val" id="resLatency">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="res-title">수집 방식:</span>
+                        <span class="res-val" id="resMethod">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="res-title">기사 헤드라인 탐지:</span>
+                        <span class="res-val" id="resHeadlines">-</span>
+                    </div>
+                    <div class="result-msg" id="resMessage">-</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="btnCloseModalBottom">닫기</button>
+                <button class="btn btn-accent" id="btnApplyModalUrl">이 URL로 기사 불러오기</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Audio Player for TTS -->
+    <audio id="globalAudioPlayer" preload="none"></audio>
+
+    <footer class="app-footer">
+        <p>© 2025-2026 AP News English Lab • Flask Modern Web Application</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
