@@ -387,21 +387,12 @@ def fetch_ap_news_rss(category='top'):
 
         if title and len(title) > 20 and title not in seen_titles:
             seen_titles.add(title)
-            # 불필요한 RSS 링크/HTML 태그 및 중복 제목 제거
-            raw_desc = getattr(entry, 'summary', '')
-            clean_desc = ''
-            if raw_desc:
-                desc_soup = BeautifulSoup(raw_desc, 'html.parser')
-                clean_desc = desc_soup.get_text(strip=True)
-                clean_desc = re.sub(r'apnews\.com$', '', clean_desc, flags=re.I).strip()
-                if clean_desc.lower() == title.lower() or len(clean_desc) < 25:
-                    clean_desc = ''
-
+            # RSS 피드는 요약 본문이 없고 제목만 제공하므로 제목 중복 방지를 위해 description은 빈 값으로 설정
             items.append({
                 'id': len(items) + 1,
                 'title': title,
                 'link': entry.link,
-                'description': clean_desc,
+                'description': '',
                 'published': getattr(entry, 'published', ''),
                 'source': 'AP News RSS Feed'
             })
@@ -561,10 +552,18 @@ def extract_paragraphs_from_jina(article_url):
 def get_article_summary(url):
     """
     기사 원문 링크에서 본문을 크롤링하여 앞부분 3~4개 문단을 요약본으로 추출한다.
-    Google News 암호화 링크 복원 및 Cloudflare 우회(Jina)를 지원한다.
+    과거 잘못 캐시된 1줄짜리 요약은 자동 무효화하고 실제 기사 본문 문단만을 추출한다.
     """
+    # 과거 잘못 저장된 짧은 제목형 캐시(100자 이하)는 무효화하고 새로 추출
     if url in SUMMARY_CACHE:
-        return SUMMARY_CACHE[url]
+        cached = SUMMARY_CACHE[url]
+        if cached and len(cached.strip()) > 100 and not cached.endswith('AP News') and not cached.endswith('apnews.com'):
+            return cached
+        else:
+            try:
+                del SUMMARY_CACHE[url]
+            except KeyError:
+                pass
 
     if not url.startswith('http'):
         return "유효한 기사 링크가 없습니다."
@@ -574,7 +573,7 @@ def get_article_summary(url):
 
     text_blocks = []
 
-    # 2단계: 직접 웹 페이지 HTML 크롤링 시도
+    # 2단계: 직접 웹 페이지 HTML 크롤링 시도 (safe_fetch_html: curl_cffi / requests)
     try:
         res = safe_fetch_html(target_url, timeout=12)
         if res.status_code == 200:
@@ -582,17 +581,18 @@ def get_article_summary(url):
             paragraphs = soup.select('.RichTextStoryBody p, .StoryBody p, main p, article p')
             for p in paragraphs:
                 text = p.get_text(strip=True)
-                if len(text) > 60:
+                # 실제 기사 본문 문단 필터링 (광고, 저작권, 사진 캡션 제외)
+                if len(text) > 60 and not text.startswith('Copyright') and not text.startswith('FILE -') and not text.startswith('Follow '):
                     text_blocks.append(text)
     except Exception as e:
         logger.warning(f"Direct summary fetch failed: {e}")
 
-    # 3단계: Cloudflare 403 차단 시 Jina Reader 우회 추출
+    # 3단계: Cloudflare 차단 시 Jina Reader 우회 추출
     if not text_blocks and 'apnews.com/article' in target_url:
         logger.info(f"Using Jina Reader bypass for {target_url}")
         text_blocks = extract_paragraphs_from_jina(target_url)
 
-    # 4단계: 문단이 추출되었으면 처음 3개 문단을 합쳐 요약본 생성
+    # 4단계: 문단이 추출되었으면 처음 3개 문단을 합쳐 풍부한 요약본 생성
     if text_blocks:
         summary_text = " ".join(text_blocks[:3])
         SUMMARY_CACHE[url] = summary_text
@@ -600,15 +600,7 @@ def get_article_summary(url):
             SUMMARY_CACHE[target_url] = summary_text
         return summary_text
 
-    # 5단계: 최후의 수단 - 캐시된 설명문이 있는지 확인 (더미/제목 제외)
-    desc = find_article_description_by_url(url)
-    if desc and len(desc.strip()) > 35:
-        clean_desc = BeautifulSoup(desc, 'html.parser').get_text(strip=True)
-        if not clean_desc.endswith('apnews.com'):
-            SUMMARY_CACHE[url] = clean_desc
-            return clean_desc
-
-    return "기사 본문 요약을 추출할 수 없습니다. 원문 읽기 링크를 이용해 주세요."
+    return "기사 본문 요약을 추출할 수 없습니다. 상단 'AP News 원문' 링크를 통해 전체 기사를 확인해 주세요."
 
 
 def _translate_via_web(text):

@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
             card.id = `art-card-${art.id}`;
 
             let cleanDesc = (art.description || '').trim();
-            if (cleanDesc.includes('<a ') || cleanDesc.includes('&lt;a ') || cleanDesc.includes('font color=') || cleanDesc.toLowerCase() === (art.title || '').toLowerCase()) {
+            if (!cleanDesc || cleanDesc.includes('<a') || cleanDesc.endsWith('AP News') || cleanDesc.endsWith('apnews.com') || cleanDesc.toLowerCase().includes((art.title || '').toLowerCase().slice(0, 25))) {
                 cleanDesc = '';
             }
             const descHtml = cleanDesc ? `<p class="article-desc">${escapeHtml(cleanDesc)}</p>` : '';
